@@ -13,9 +13,10 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 	
 	private static final String TABLE_Passwords = null;
 	private static final String ID = null;
-	private static final String Username = null;
-	private static final String Website = null;
-	private static final String Password = null;
+	private static final String SITEURL = null;
+	private static final String SITENAME = null;
+	private static final String LOGIN = null;
+	private static final String PASSWORD = null;
 
 	public PasswordDataBaseHelper(Context context, String name, CursorFactory factory, int version) {
 		 super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,7 +25,7 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 	// Database creation sql statement
 	  private static final String DATABASE_CREATE = "create table "
 	      + TABLE_Passwords + "(" + ID
-	      + " integer primary key, "+ Website + " text not null, "+ Username + " text not null, "+ Password  +" text not null);";
+	      + " integer primary key, "+ SITEURL + " text not null, "+ SITENAME + " text not null, "+ LOGIN + " text not null, "+ PASSWORD  +" text not null);";
 
 	
 	  @Override
