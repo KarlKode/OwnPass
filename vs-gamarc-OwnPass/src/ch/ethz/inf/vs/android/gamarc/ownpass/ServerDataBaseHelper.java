@@ -22,7 +22,7 @@ public class ServerDataBaseHelper extends SQLiteOpenHelper{
 	private static final String SERVER_NAME = null;
 	private static final String SERVER_URL = null;
 
-	public ServerDataBaseHelper(Context context, String name, CursorFactory factory, int version) {
+	public ServerDataBaseHelper(Context context) {
 		 super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 

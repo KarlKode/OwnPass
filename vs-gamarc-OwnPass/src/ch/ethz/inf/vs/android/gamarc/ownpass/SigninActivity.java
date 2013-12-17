@@ -15,6 +15,7 @@ import java.util.List;
 public class SigninActivity extends Activity {
 
     public static int LONG_PRESS_TIME = 500;
+    ServerDataBaseHelper sHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class SigninActivity extends Activity {
 		setContentView(R.layout.activity_signin);
 
         //TODO create server manager object
-        List<Server> servers = new ArrayList<Server>();
+        List<Server> servers = sHelper.get_All_Server();
 
         //Add Server entries to the listview
         ListView lvServer = (ListView) findViewById(R.id.list_view);

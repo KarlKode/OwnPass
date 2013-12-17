@@ -24,7 +24,7 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 	private static final String LOGIN = null;
 	private static final String PASSWORD = null;
 
-	public PasswordDataBaseHelper(Context context, String name, CursorFactory factory, int version) {
+	public PasswordDataBaseHelper(Context context) {
 		 super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -88,8 +88,12 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 		  return passwList;
 	  }
 	  
-	  public Password search(int Server_id, String text){
+	  public ArrayList<Password> search(int Server_id, String text){
 		  //TODO
+		  
+		  
+		  
+		  
 		  
 		  
 		  
