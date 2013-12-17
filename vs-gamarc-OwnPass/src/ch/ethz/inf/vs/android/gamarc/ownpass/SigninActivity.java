@@ -22,7 +22,7 @@ public class SigninActivity extends Activity {
 		setContentView(R.layout.activity_signin);
 
         //TODO create server manager object
-        List<ServerWrapper> servers = new ArrayList<ServerWrapper>();
+        List<Server> servers = new ArrayList<Server>();
 
         //Add Server entries to the listview
         ListView lvServer = (ListView) findViewById(R.id.list_view);
@@ -33,8 +33,8 @@ public class SigninActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Get the clicked ServerWrapper
-                ServerWrapper serverWrapper = (ServerWrapper) parent.getItemAtPosition(position);
-                if (serverWrapper == null) {
+                Server server = (Server) parent.getItemAtPosition(position);
+                if (server == null) {
                     return;
                 }
 
@@ -48,7 +48,7 @@ public class SigninActivity extends Activity {
 
         //start OnClickListerner for the button
 
-        Button addServerButton = (Button) findViewById(R.id.button);
+        Button addServerButton = (Button) findViewById(R.id.activity_signin_button);
         addServerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -67,7 +67,7 @@ public class SigninActivity extends Activity {
 		return true;
 	}
 
-    public void addNewServer(){
+    private void addNewServer(){
         //TODO call dialog with dialog_signin.xml
         //http://developer.android.com/guide/topics/ui/dialogs.html
     }
