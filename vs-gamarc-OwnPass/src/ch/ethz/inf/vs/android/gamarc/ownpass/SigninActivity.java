@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -21,11 +22,16 @@ public class SigninActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signin);
 
+        ServerDataBaseHelper sHelper;
+
         //TODO create server manager object
-        List<Server> servers = new ArrayList<Server>();
+        List<Server> servers = sHelper.get_All_Server();
 
         //Add Server entries to the listview
         ListView lvServer = (ListView) findViewById(R.id.list_view);
+        ArrayAdapter<Server> serverArrayAdapter = new ArrayAdapter<Server>(this,
+                android.R.layout.simple_list_item_1, servers);
+        lvServer.setAdapter(serverArrayAdapter);
 
 
         //start OnCLickListener to the server ListView
