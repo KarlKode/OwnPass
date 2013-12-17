@@ -61,9 +61,10 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 		  db.close();
 	  }
 	  
-	  ArrayList<Password> passwList = new ArrayList<Password>(); 
+	  private ArrayList<Password> passwList = new ArrayList<Password>(); 
 	  
-	  public ArrayList<Password> get_All_Passwords(int ServerID){
+	  public ArrayList<Password> get_All_Passwords(Server s){
+		  int ServerID = s.getId();
 		  SQLiteDatabase db = this.getWritableDatabase();
 		  try{
 			  passwList.clear();
@@ -88,19 +89,14 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 		  return passwList;
 	  }
 	  
-	  public ArrayList<Password> search(int Server_id, String text){
-		  //TODO
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  return null;
+	  public ArrayList<Password> search(Server s, String text){
+		  ArrayList<Password> searchList = new ArrayList<Password>(); 
+		  for(Password pw : searchList){
+			  if(pw.getSiteName().contains(text) || pw.getUrl().contains(text)){
+				  searchList.add(pw);
+			  }
+		  }
+		  return searchList;
 	  }
 	  
 	  public void deletePW(Password pw){ //TODO passw auf allen Servern löschen oder nur auf einem?
