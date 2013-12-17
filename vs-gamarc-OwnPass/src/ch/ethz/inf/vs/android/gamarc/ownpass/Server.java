@@ -1,12 +1,38 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
 public class Server {
-	private static final String TABLE_SERVER = null;
-	private static final String SERVER_ID = null;
-	private static final String LOGIN = null;
-	private static final String PASSWORD = null;
-	private static final String SERVER_NAME = null;
-	private static final String SERVER_URL = null;
+	private int SERVER_ID;
+	private String LOGIN;
+	private String PASSWORD;
+	private String SERVER_NAME;
+	private String SERVER_URL;
 	
+	public int getId(){
+		return this.SERVER_ID;
+	}
+	
+	public String getUrl(){
+		return this.SERVER_URL;
+	}
+	
+	public String getName(){
+		return this.SERVER_NAME;
+	}
+	
+	public String getEncryptedLogin(){
+		return this.LOGIN;
+	}
+	
+	public String getEncryptedPW(){
+		return this.PASSWORD;
+	}
+	
+	public Server(int Server_id, String url, String Server_name, String login, String password){
+		SERVER_ID = Server_id;
+		SERVER_URL = url;
+		SERVER_NAME = Server_name;
+		PASSWORD = password;
+		LOGIN = login;	
+	}
 
 }
