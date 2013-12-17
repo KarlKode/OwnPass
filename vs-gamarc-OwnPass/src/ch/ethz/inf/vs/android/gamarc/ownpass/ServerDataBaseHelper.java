@@ -1,6 +1,10 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
+import java.util.ArrayList;
+
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -42,4 +46,72 @@ public class ServerDataBaseHelper extends SQLiteOpenHelper{
 	    onCreate(db);
 	  }
 
+	  
+	  
+	  public void Add_Server(Password passw){
+		  SQLiteDatabase db = this.getWritableDatabase();
+		  ContentValues values =new ContentValues();
+		  //values.put(SERVER_ID, passw.getServerId());
+		  values.put(SERVER_NAME, passw.getSiteName());
+		  values.put(SERVER_URL, passw.getUrl());
+		  values.put(LOGIN, passw.getEncryptedLogin());
+		  values.put(PASSWORD, passw.getEncryptedPW());
+		  //insert
+		  db.insert(TABLE_SERVER, null, values);
+		  db.close();
+	  }
+	  
+	  ArrayList<Server> sList = new ArrayList<Server>(); 
+	  
+	  public ArrayList<Server> get_All_Server(){
+		  SQLiteDatabase db = this.getWritableDatabase();
+		  try{
+			  sList.clear();
+			
+			// Select All Query
+			  String selectQuery = "SELECT * FROM " + TABLE_SERVER;
+			  
+			  Cursor cursor = db.rawQuery(selectQuery, null);
+
+			 if( cursor.moveToFirst()){
+					 do{
+						 Server s = new Server(cursor.getInt(1), cursor.getString(2), 
+								 cursor.getString(3), cursor.getString(4), cursor.getString(5));
+						 
+						 sList.add(s);
+					 }while(cursor.moveToNext());
+			 }
+			  cursor.close();
+			  db.close();
+			  return sList;
+		  }catch (Exception e){
+			  Log.e("all_passwords", ""+e);                                                                                                       
+		  }
+		  return sList;
+	  }
+	  
+	  public void deleteServer(Server s){ //TODO passw auf allen Servern löschen oder nur auf einem?
+		  SQLiteDatabase db = this.getWritableDatabase();
+		  db.delete(TABLE_SERVER, SERVER_ID + " = "+ s.getId(), null); 
+		  db.close();
+	  }
+	  
+	// Updating single contact
+	  public int Update_Server(Server s) {
+		  SQLiteDatabase db = this.getWritableDatabase();
+
+		  ContentValues values = new ContentValues();
+
+		  values.put(SERVER_ID, s.getId());
+		  values.put(SERVER_NAME, s.getName());
+		  values.put(SERVER_URL, s.getUrl());
+		  values.put(LOGIN, s.getEncryptedLogin());
+		  values.put(PASSWORD, s.getEncryptedPW());
+
+		  // updating row
+
+		  return db.update(TABLE_SERVER, values,  SERVER_ID + " = " + s.getId(),
+				  	null);
+	  }
+	  
 }
