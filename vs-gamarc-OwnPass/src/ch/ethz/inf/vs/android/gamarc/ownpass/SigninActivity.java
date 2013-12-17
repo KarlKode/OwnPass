@@ -16,6 +16,7 @@ import java.util.List;
 public class SigninActivity extends Activity {
 
     public static int LONG_PRESS_TIME = 500;
+    ServerDataBaseHelper sHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
