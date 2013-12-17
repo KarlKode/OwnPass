@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OwnPass</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Muschmuschi</string>
+    <string name="add_new_server">Add new server</string>
+    <string name="add_new_pwd">Add new password</string>
+    <string name="servername">Servername</string>
+    <string name="url">URL</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="save">save</string>
+
+</resources>
