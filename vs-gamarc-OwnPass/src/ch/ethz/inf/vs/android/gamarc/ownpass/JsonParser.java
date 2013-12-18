@@ -111,19 +111,41 @@ public class JsonParser extends AsyncTask <String, Void, String> {
 			return pws;
 		}
 		
-		public Server checkServer(){ // nutzlos???
+		private Server evalServer(){
 			try {
 		        JSONObject oneObject = new JSONObject();
 		        // Pulling items from the array
 		        int id = oneObject.getInt("id");
 		        String pw = oneObject.getString("password");
 		        String name = oneObject.getString("username");
-		        String url = "";
 		        
-		        return new Server(id, url, null, name, pw);
+		        return new Server(id, null, null, name, pw);
 		    } catch (JSONException e) {
 		    	e.printStackTrace();
 		    }
 			return null;
 		}
+		
+		public boolean isConnected(Server s){
+			boolean res = false;
+			try{
+				this.execute(s.getUrl(), s.getEncryptedLogin(), s.getEncryptedPW());
+				Server sRet = evalServer();
+				if(sRet.getId() == s.getId())
+					if(sRet.getEncryptedLogin().equals(s.getEncryptedLogin()))
+						if(sRet.getEncryptedPW().equals(s.getEncryptedPW()))
+							res = true;
+			}catch(Exception e){}
+			return res;
+		}
+		
+//		public boolean isConnected(){
+//      ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+//          NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+//          if (networkInfo != null && networkInfo.isConnected()) 
+//              return true;
+//          else
+//              return false;    
+//  }
+		
 }
