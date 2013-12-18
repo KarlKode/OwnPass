@@ -147,5 +147,4 @@ public class JsonParser extends AsyncTask <String, Void, String> {
 //          else
 //              return false;    
 //  }
-		
 }
