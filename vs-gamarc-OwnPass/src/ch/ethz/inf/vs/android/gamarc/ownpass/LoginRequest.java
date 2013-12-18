@@ -11,47 +11,65 @@ import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 
 import java.io.IOException;
 
-public class LoginRequest extends AsyncTask<String, Void, Void> {
-    private static String URL = "users/%s/passwords";
+public class LoginRequest extends AsyncTask<Void, Void, Void> {
+	private DefaultHttpClient httpClient = new DefaultHttpClient();
+	private ResponseHandler<String> responseHandler = new BasicResponseHandler();
+	private HttpGet httpGet;
+	
+    private static String URL = "/users/%s";
     private static String authorizationString;
     private String response;
     
     public LoginRequest(Server s){
-        URL = s.getUrl()+URL;
-    	String username = s.getEncryptedLogin();
-        String password = s.getEncryptedPW();
+      
+    	String username = new String(Base64.decode(s.getEncryptedLogin(), Base64.DEFAULT));
+        String password = new String(Base64.decode(s.getEncryptedPW(), Base64.DEFAULT));
         
-        URL = String.format(URL, username);
-        
+        URL = s.getUrl()+URL+username;
         authorizationString = "Basic " + Base64.encodeToString((username + ":" + password)
         		.getBytes(), Base64.NO_CLOSE);
-    }
+        
+        httpGet = new HttpGet(URL);
+        httpGet.setHeader("Content-Type", "application/json");
+        httpGet.setHeader("Authorization", authorizationString);
+     }
 
     @Override
-    protected Void doInBackground(String... params) { // Username, hashed password
-
-
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(URL);
-        httpGet.setHeader("Content-Type", "application/json");
-
-
-        httpGet.setHeader("Authorization", authorizationString);
-
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+    protected Void doInBackground(Void... params) {//no parameters
+    	response = null;
         try {
             response = httpClient.execute(httpGet, responseHandler);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("response :" + response);
-
+        //System.out.println("response :" + response);
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-       //TODO  handle response;
+       
+        
+        //TODO  handle response;
+        
+        
     }
+    
+    public String getAuthorization(){
+    	return authorizationString;
+    }
+    
+    public String getBaseUrl(){
+    	return URL;
+    }
+    
+	public boolean isConnected(){
+		boolean res = false;
+		this.execute();
+		if(response != null)	
+			res = true;
+		return res;
+	}
+    
 }
