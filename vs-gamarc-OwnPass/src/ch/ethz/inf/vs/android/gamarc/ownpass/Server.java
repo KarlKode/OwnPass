@@ -19,6 +19,10 @@ public class Server {
 		return this.SERVER_NAME;
 	}
 	
+	public void setName(String serverName){
+		 this.SERVER_NAME = serverName;
+	}
+	
 	public String getEncryptedLogin(){
 		return this.LOGIN;
 	}
