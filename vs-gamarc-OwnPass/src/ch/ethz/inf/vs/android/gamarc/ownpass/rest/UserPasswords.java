@@ -3,7 +3,9 @@ package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Database;
 import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
+import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordManagerActivity;
 import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordUpdateRequest;
 import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 import org.apache.http.HttpResponse;
@@ -18,13 +20,17 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserPasswords extends AsyncTask<Void, Void, String> {
     private Server server;
     private String authorizationString;
+    private Database db;
 
-    public UserPasswords(Server server) {
+    public UserPasswords(Server server, Database d) {
         this.server = server;
+        db = d;
         authorizationString = "Basic " + Base64.encodeToString((server.getUsername() + ":" + server.getPassword())
                 .getBytes(), Base64.NO_WRAP);
     }
@@ -67,7 +73,8 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
         if (response == null) {
             return;
         }
-        ArrayL
+        db.clearPasswords();
+        List<Password> passwords = new ArrayList <Password>();
         JSONArray pws;
         try {
             pws = new JSONArray(response);
@@ -80,12 +87,12 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
                 String name = oneObject.getString("username");
                 String title = oneObject.getString("title");
 
-                passwords.add(new Password(server, id, url, title, name, pw));
+                db.addPassword(new Password(server, id, url, title, name, pw));
             }
+           
         } catch (JSONException e) {
-            Log.e(PasswordUpdateRequest.class.toString(), "Failed to download file");
+            Log.e(UserPasswords.class.toString(), "Failed to download file");
         }
-
     }
 
     public String getAuthorization() {
