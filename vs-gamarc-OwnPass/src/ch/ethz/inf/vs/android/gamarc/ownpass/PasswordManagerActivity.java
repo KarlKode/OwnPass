@@ -14,6 +14,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.ethz.inf.vs.android.gamarc.ownpass.rest.PasswordAdd;
+import ch.ethz.inf.vs.android.gamarc.ownpass.rest.PasswordDelete;
+import ch.ethz.inf.vs.android.gamarc.ownpass.rest.PasswordEdit;
 import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
 
 public class PasswordManagerActivity extends Activity{
@@ -27,6 +30,9 @@ public class PasswordManagerActivity extends Activity{
     EditText password;
 	private Database db;
 	private UserPasswords upass;
+	private PasswordAdd padd;
+	private PasswordDelete pdel;
+	private PasswordEdit pedit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,11 @@ public class PasswordManagerActivity extends Activity{
         passwordList.add(pass);
         
         db = new Database(this);
-        upass = new UserPasswords(server, db);
+        upass = new UserPasswords(server, db); 
+        String authorizationString = upass.getAuthorization();
+        padd = new PasswordAdd(server, authorizationString);
+        pdel = new PasswordDelete(server, authorizationString);
+        pedit = new PasswordEdit(server, authorizationString);
         passwordList = getPasswords(server);
 
         //Add Server entries to the listview
