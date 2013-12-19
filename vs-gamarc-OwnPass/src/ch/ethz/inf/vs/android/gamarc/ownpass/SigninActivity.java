@@ -35,15 +35,28 @@ public class SigninActivity extends Activity {
 
         database = new Database(this);
         List<Server> servers = new ArrayList<Server>();//testing
-        Server testServer = new Server(1,"url", "Testserver", "login", "password");
+        Server testServer1 = new Server(1,"http://marcg.ch:5000/", "marc2", "login", "password");
 
-        servers.add(testServer); //testing
+        servers.add(testServer1); //testing
 
-        testServer = new Server(2,"url2", "Testserver2", "login2", "password2");
+        Server testServer2 = new Server(2,"http://marcg.ch:5000/", "marc", "login2", "password2");
+        
 
-        servers.add(testServer); //testing
-
-
+        servers.add(testServer2); //testing
+        
+        LoginRequest lr = new LoginRequest(testServer1);
+        lr.execute();
+ 
+        try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        
+        Password p1 = new Password(testServer1, 0,"abc" , "www.a.b.c", "k".getBytes(), "kk".getBytes());
+        
 
 
         //Add Server entries to the listview

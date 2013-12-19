@@ -23,10 +23,9 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
     private String username;
     private boolean responded = false;
     
-    public LoginRequest(Server s){
-      
-    	username = new String(Base64.decode(s.getUsername(), Base64.DEFAULT));
-        String password = new String(Base64.decode(s.getPassword(), Base64.DEFAULT));
+    public LoginRequest(Server s){      
+    	username = s.getUsername();//new String(Base64.decode(s.getUsername(), Base64.DEFAULT));
+        String password = s.getPassword();//new String(Base64.decode(s.getPassword(), Base64.DEFAULT));
         
         URL = s.getUrl()+URL+username;
         authorizationString = "Basic " + Base64.encodeToString((username + ":" + password)
@@ -57,6 +56,8 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
 		    if(login.equals(username))
 		    	responded = true;
 		} catch (JSONException e) {
+			int x = 0;
+			int y = x+1;
 			//TODO
 		}
     }
