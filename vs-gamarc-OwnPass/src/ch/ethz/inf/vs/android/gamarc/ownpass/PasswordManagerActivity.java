@@ -39,14 +39,10 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         setContentView(R.layout.activity_pwd_manager);
 
         List<Password> passwordList = new ArrayList<Password>();
-
-        Server server = new Server(1, "o", "b", "c", "t");
-
-        byte[] b = {1, 2, 6, 3};
-        Password pass = new Password(server, 14, "title", "url", b, b);
-        passwordList.add(pass);
-
+        
         db = new Database(this);
+        Intent intent = getIntent();
+        Server server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
         upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
@@ -205,12 +201,6 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         showPwDialog.show();
 
     }
-
-    private void addPasswords() {
-
-    }
-
-
 
     private void save(Password pw) {
         db.addPassword(pw);
