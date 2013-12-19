@@ -1,6 +1,6 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
-import android.content.Intent;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,6 +17,13 @@ import java.util.List;
 public class SigninActivity extends Activity {
 
     public static int LONG_PRESS_TIME = 500;
+    Dialog addServerDialog;
+    EditText serverName;
+    EditText serverUrl;
+    EditText serverLogin;
+    EditText serverPassword;
+    Button saveDialogBtn;
+    Button cancelDialogBtn;
     ServerDataBaseHelper sHelper;
 
 	@Override
@@ -23,10 +31,23 @@ public class SigninActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signin);
 
-        ServerDataBaseHelper sHelper;
+      /*  sHelper = new ServerDataBaseHelper(this);
 
-        //TODO create server manager object
-        List<Server> servers = sHelper.get_All_Server();
+
+        List<Server> servers = sHelper.get_All_Server();*/
+
+        sHelper = new ServerDataBaseHelper(this);
+        List<Server> servers = new ArrayList<Server>();//testing
+        Server testServer = new Server(1,"url", "Testserver", "login", "password");
+
+        servers.add(testServer); //testing
+
+        testServer = new Server(2,"url2", "Testserver2", "login2", "password2");
+
+        servers.add(testServer); //testing
+
+
+
 
         //Add Server entries to the listview
         ListView lvServer = (ListView) findViewById(R.id.list_view);
@@ -46,10 +67,10 @@ public class SigninActivity extends Activity {
                 }
 
                 // Create intent to switch to the SensorActivity
-                Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
+               // Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
                 // Pass the sensor as an extra to the SensorActivity
                // intent.putExtra(EXTRA_SENSOR, sensorWrapper.getSensor().toString());
-                startActivity(intent);
+               // startActivity(intent);
             }
         });
 
@@ -77,6 +98,34 @@ public class SigninActivity extends Activity {
     private void addNewServer(){
         //TODO call dialog with dialog_signin.xml
         //http://developer.android.com/guide/topics/ui/dialogs.html
+
+        addServerDialog = new Dialog(SigninActivity.this);
+        addServerDialog.setContentView(R.layout.dialog_signin);
+        serverName = (EditText)addServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText)addServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText)addServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText)addServerDialog.findViewById(R.id.password);
+
+        saveDialogBtn = (Button)addServerDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button)addServerDialog.findViewById(R.id.canbtn);
+        addServerDialog.setTitle("Add new Server");
+
+        saveDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Create Databaseentry
+
+                addServerDialog.dismiss();
+            }
+        });
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Auto-generated method stub
+                addServerDialog.dismiss();
+            }
+        });
+        addServerDialog.show();
     }
 
 

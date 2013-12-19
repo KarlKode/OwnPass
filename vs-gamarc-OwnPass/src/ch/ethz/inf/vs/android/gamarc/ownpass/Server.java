@@ -30,6 +30,9 @@ public class Server {
 	public String getEncryptedPW(){
 		return this.PASSWORD;
 	}
+
+    // used for access in listview ( toString is default access in listview)
+    public String toString(){return this. SERVER_NAME;}
 	
 	public Server(int Server_id, String url, String Server_name, String login, String password){
 		SERVER_ID = Server_id;
