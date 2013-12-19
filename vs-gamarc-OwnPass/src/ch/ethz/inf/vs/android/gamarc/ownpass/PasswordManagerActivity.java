@@ -104,20 +104,13 @@ public class PasswordManagerActivity extends Activity{
 	public void displayPasswords(){
 		
 	}
-	
-<<<<<<< .mine
-	/*public void update(){
 
-
-
-
-=======
+	/*
 	public void addPasswords(){
 		
 	}
 	
 	public void update(){
->>>>>>> .theirs
 		
 	} */
 	
