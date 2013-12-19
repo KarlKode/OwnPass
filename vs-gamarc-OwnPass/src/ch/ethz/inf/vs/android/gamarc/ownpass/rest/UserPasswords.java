@@ -2,12 +2,18 @@ package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
+import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordUpdateRequest;
 import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -59,10 +65,27 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         if (response == null) {
-            System.out.println("foo");
             return;
         }
-        System.out.println(response);
+        ArrayL
+        JSONArray pws;
+        try {
+            pws = new JSONArray(response);
+            for (int i = 0; i < pws.length(); i++) {
+                JSONObject oneObject = pws.getJSONObject(i);
+                // Pulling items from the array
+                int id = oneObject.getInt("id");
+                String pw = oneObject.getString("password");
+                String url = oneObject.getString("url");
+                String name = oneObject.getString("username");
+                String title = oneObject.getString("title");
+
+                passwords.add(new Password(server, id, url, title, name, pw));
+            }
+        } catch (JSONException e) {
+            Log.e(PasswordUpdateRequest.class.toString(), "Failed to download file");
+        }
+
     }
 
     public String getAuthorization() {

@@ -38,9 +38,9 @@ public class PasswordManagerActivity extends Activity{
         ArrayList<Password> passwordList = new ArrayList<Password>();
 
         Server server = new Server(1,"o", "b", "c", "t");
-        Byte[] b = new Byte[];
-        Password pass = new Password(server, 14,"title","url",; ,new Byte[]);
-        passwordList.add(pass);
+//        Byte[] b = new Byte[];
+//        Password pass = new Password(server, 14,"title","url",; ,new Byte[]);
+//        passwordList.add(pass);
         db = new Database(this);
         passwordList = getPasswords(server);
 
@@ -109,7 +109,9 @@ public class PasswordManagerActivity extends Activity{
 
     private void showPassword(Password pw){
 
-    }*
+    }
+    
+    /*
 	public void addPasswords(){
 		
 	}
@@ -131,7 +133,7 @@ public class PasswordManagerActivity extends Activity{
 	}
 
     private ArrayList<Password>getPasswords(Server server){
-
+    	
         return null;
     }
 }
