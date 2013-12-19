@@ -252,7 +252,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     }
     @Override
     public void onSuccess(List<Password> passwordList) {
-    	
+//    	db.clearPasswords();
         for(Password p: passwordList) {
         	db.addPassword(p);
         }

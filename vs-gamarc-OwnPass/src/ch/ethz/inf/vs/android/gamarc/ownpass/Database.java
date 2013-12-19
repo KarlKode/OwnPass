@@ -163,9 +163,8 @@ public class Database extends SQLiteOpenHelper {
 
     public void updateServer(long id, String name, String url, String username, String password) {
         SQLiteDatabase database = getWritableDatabase();
-       
+
         // Update the server with the given id and set the new values
-        database.execSQL(QUERY_CREATE_PASSWORD);
         ContentValues updatedServer = new ContentValues();
         updatedServer.put(FIELD_SERVER_ID, id);
         updatedServer.put(FIELD_SERVER_NAME, name);
@@ -229,8 +228,7 @@ public class Database extends SQLiteOpenHelper {
 
     public void addPassword(Password password) {
     	SQLiteDatabase database = getWritableDatabase();
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_PASSWORD);
-    	
+    
     	ContentValues newPassword = new ContentValues();
         newPassword.put(FIELD_PASSWORD_SERVER_ID, password.getServer().getId());
         newPassword.put(FIELD_PASSWORD_SERVER_PASSWORD_ID, password.getServerId());		
@@ -278,8 +276,9 @@ public class Database extends SQLiteOpenHelper {
         database.close();
     }
 
-	public void clearPasswords() {
-		 SQLiteDatabase database = getWritableDatabase();
-		 database.execSQL("DROP TABLE IF EXISTS " + TABLE_PASSWORD);
-	}
+//	public void clearPasswords() {
+//		SQLiteDatabase database = getWritableDatabase();
+//        database.execSQL("DROP TABLE IF EXISTS " + TABLE_PASSWORD);
+//        database.execSQL(QUERY_CREATE_PASSWORD);
+//	}
 }
