@@ -33,6 +33,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String TABLE_PASSWORD = "passwords";
     private static final String FIELD_PASSWORD_ID = "id";
     private static final String FIELD_PASSWORD_SERVER_ID = "server_id";
+    private static final String FIELD_PASSWORD_SERVER_PASSWORD_ID = "server_password_id";
     private static final String FIELD_PASSWORD_TITLE = "title";
     private static final String FIELD_PASSWORD_URL = "url";
     private static final String FIELD_PASSWORD_USERNAME = "username";
@@ -41,12 +42,13 @@ public class Database extends SQLiteOpenHelper {
             "CREATE TABLE %s (" +
                     "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "%s INTEGER INDEX" +
+                    "%s INTEGER INDEX" +
                     "%s TEXT NOT NULL," +
                     "%s TEXT NOT NULL," +
                     "%s BLOB NOT NULL," +
                     "%s BLOB NOT NULL" +
-            ")", TABLE_PASSWORD, FIELD_PASSWORD_ID, FIELD_PASSWORD_SERVER_ID, FIELD_PASSWORD_TITLE, FIELD_PASSWORD_URL,
-            FIELD_PASSWORD_USERNAME, FIELD_PASSWORD_PASSWORD);
+            ")", TABLE_PASSWORD, FIELD_PASSWORD_ID, FIELD_PASSWORD_SERVER_ID, FIELD_PASSWORD_SERVER_PASSWORD_ID,
+            FIELD_PASSWORD_TITLE, FIELD_PASSWORD_URL, FIELD_PASSWORD_USERNAME, FIELD_PASSWORD_PASSWORD);
 
     /* TODO */
     private static final String TABLE_UPDATE = "updates";
@@ -196,8 +198,8 @@ public class Database extends SQLiteOpenHelper {
         // Query all passwords
         ArrayList<Password> passwords = new ArrayList<Password>();
         Cursor cursor = database.query(TABLE_PASSWORD,
-                new String[] {FIELD_PASSWORD_ID, FIELD_PASSWORD_SERVER_ID, FIELD_PASSWORD_TITLE, FIELD_PASSWORD_URL,
-                        FIELD_PASSWORD_USERNAME, FIELD_SERVER_PASSWORD},
+                new String[] {FIELD_PASSWORD_ID, FIELD_PASSWORD_SERVER_ID, FIELD_PASSWORD_SERVER_PASSWORD_ID,
+                        FIELD_PASSWORD_TITLE, FIELD_PASSWORD_URL, FIELD_PASSWORD_USERNAME, FIELD_SERVER_PASSWORD},
                 null,
                 null,
                 null,
@@ -207,11 +209,12 @@ public class Database extends SQLiteOpenHelper {
             do {
                 long id = cursor.getLong(cursor.getColumnIndex(FIELD_PASSWORD_ID));
                 Server server = getServer(cursor.getLong(cursor.getColumnIndex(FIELD_PASSWORD_SERVER_ID)));
+                long server_id = cursor.getLong(cursor.getColumnIndex(FIELD_PASSWORD_SERVER_PASSWORD_ID));
                 String title = cursor.getString(cursor.getColumnIndex(FIELD_PASSWORD_TITLE));
                 String url = cursor.getString(cursor.getColumnIndex(FIELD_PASSWORD_URL));
                 byte[] username = cursor.getBlob(cursor.getColumnIndex(FIELD_PASSWORD_USERNAME));
                 byte[] password = cursor.getBlob(cursor.getColumnIndex(FIELD_PASSWORD_PASSWORD));
-                passwords.add(new Password(id, server, title, url, username, password));
+                passwords.add(new Password(id, server, server_id, title, url, username, password));
             } while (cursor.moveToNext());
         }
 
