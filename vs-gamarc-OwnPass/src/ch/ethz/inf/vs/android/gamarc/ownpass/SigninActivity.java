@@ -1,25 +1,19 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.*;
 
 public class SigninActivity extends Activity {
+    public static String EXTRA_SERVER_NAME = "SERVER_NAME";
+    public static String EXTRA_SERVER_URL = "SERVER_URL";
+    public static String EXTRA_SERVER_USERNAME = "SERVER_USERNAME";
+    public static String EXTRA_SERVER_PASSWORD = "SERVER_PASSWORD";
 
-    public static int LONG_PRESS_TIME = 500;
     Dialog addServerDialog;
     Dialog editServerDialog;
     EditText serverName;
@@ -30,26 +24,20 @@ public class SigninActivity extends Activity {
     Button cancelDialogBtn;
     Button delDialogBtn;
     Database database;
+    ArrayAdapter<Server> serverArrayAdapter;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_signin);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signin);
 
         database = new Database(this);
-        List<Server> servers = new ArrayList<Server>();//testing
-        Server testServer1 = new Server(1,"http://marcg.ch:5000/", "marc2", "login", "password");
-
-        servers.add(testServer1); //testing
-        Server testServer2 = new Server(2,"http://marcg.ch:5000/", "marc", "login2", "password2");
-        servers.add(testServer2); //testing
 
         //Add Server entries to the listview
         ListView lvServer = (ListView) findViewById(R.id.list_view);
-        ArrayAdapter<Server> serverArrayAdapter = new ArrayAdapter<Server>(this,
-                android.R.layout.simple_list_item_1, servers);
+        serverArrayAdapter = new ArrayAdapter<Server>(this,
+                android.R.layout.simple_list_item_1, database.getServers());
         lvServer.setAdapter(serverArrayAdapter);
-
 
         //start OnCLickListener to the server ListView
         lvServer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,69 +49,72 @@ public class SigninActivity extends Activity {
                     return;
                 }
 
-                // Create intent to switch to the SensorActivity
-               Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
-                // Pass the sensor as an extra to the SensorActivity
-               // intent.putExtra(EXTRA_SENSOR, sensorWrapper.getSensor().toString());
-               // startActivity(intent);
+                // Create intent to switch to the PasswordManagerActivity
+                Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
+
+                // Pass the server as an extra to the PasswordManagerActivity
+                intent.putExtra(EXTRA_SERVER_NAME, server.getName());
+                intent.putExtra(EXTRA_SERVER_URL, server.getUrl());
+                intent.putExtra(EXTRA_SERVER_USERNAME, server.getUsername());
+                intent.putExtra(EXTRA_SERVER_PASSWORD, server.getPassword());
+
+                // Start the activity
+                startActivity(intent);
             }
         });
 
-
-      lvServer.setLongClickable(true);
-      lvServer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-          public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-              Server server = (Server) parent.getItemAtPosition(position);
-              editServer(server);
-              return true;
-          }
-      });
+        lvServer.setLongClickable(true);
+        lvServer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                Server server = (Server) parent.getItemAtPosition(position);
+                editServer(server);
+                return true;
+            }
+        });
 
         //start OnClickListerner for the button
-
         Button addServerButton = (Button) findViewById(R.id.activity_signin_button);
         addServerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 addNewServer();
-
-
             }
         });
-
-        // Debug stuff
-        Server marcgTest = new Server(0, "testserver", "http://marcg.ch:5000/", "test", "foo");
-        UserPasswords r = new UserPasswords(marcgTest);
-        r.execute();
-
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.login, menu);
+        return true;
+    }
 
-    private void addNewServer(){
+    private void addNewServer() {
         //TODO call dialog with dialog_signin.xml
         //http://developer.android.com/guide/topics/ui/dialogs.html
 
         addServerDialog = new Dialog(SigninActivity.this);
         addServerDialog.setContentView(R.layout.dialog_signin);
-        serverName = (EditText)addServerDialog.findViewById(R.id.servername);
-        serverUrl = (EditText)addServerDialog.findViewById(R.id.url);
-        serverLogin = (EditText)addServerDialog.findViewById(R.id.username);
-        serverPassword = (EditText)addServerDialog.findViewById(R.id.password);
+        serverName = (EditText) addServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText) addServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText) addServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText) addServerDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button)addServerDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button)addServerDialog.findViewById(R.id.canbtn);
+        saveDialogBtn = (Button) addServerDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button) addServerDialog.findViewById(R.id.canbtn);
         addServerDialog.setTitle("Add new Server");
 
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Create Databaseentry
+                // Add the server to the database
+                String name = serverName.getText().toString();
+                String url = serverUrl.getText().toString();
+                String username = serverLogin.getText().toString();
+                String password = serverLogin.getText().toString();
+                database.addServer(new Server(name, url, username, password));
+
+                updateServers();
 
                 addServerDialog.dismiss();
             }
@@ -131,24 +122,23 @@ public class SigninActivity extends Activity {
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
                 addServerDialog.dismiss();
             }
         });
         addServerDialog.show();
     }
-    
-    private void editServer(Server server){
+
+    private void editServer(final Server server) {
         editServerDialog = new Dialog(SigninActivity.this);
         editServerDialog.setContentView(R.layout.dialog_signin);
-        serverName = (EditText)editServerDialog.findViewById(R.id.servername);
-        serverUrl = (EditText)editServerDialog.findViewById(R.id.url);
-        serverLogin = (EditText)editServerDialog.findViewById(R.id.username);
-        serverPassword = (EditText)editServerDialog.findViewById(R.id.password);
+        serverName = (EditText) editServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText) editServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText) editServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText) editServerDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button)editServerDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button)editServerDialog.findViewById(R.id.canbtn);
-        delDialogBtn = (Button)editServerDialog.findViewById(R.id.delbtn);
+        saveDialogBtn = (Button) editServerDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button) editServerDialog.findViewById(R.id.canbtn);
+        delDialogBtn = (Button) editServerDialog.findViewById(R.id.delbtn);
 
         editServerDialog.setTitle("Edit Server");
 
@@ -159,7 +149,14 @@ public class SigninActivity extends Activity {
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Update Databaseentry
+                // Update the server entry in the database
+                String name = serverName.getText().toString();
+                String url = serverUrl.getText().toString();
+                String username = serverLogin.getText().toString();
+                String password = serverLogin.getText().toString();
+                database.updateServer(server.getId(), name, url, username, password);
+
+                updateServers();
 
                 editServerDialog.dismiss();
             }
@@ -167,7 +164,6 @@ public class SigninActivity extends Activity {
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 editServerDialog.dismiss();
             }
         });
@@ -175,7 +171,11 @@ public class SigninActivity extends Activity {
         delDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO delete database entry
+                // Remove the server from the database
+                database.removeServer(server.getId());
+
+                updateServers();
+
                 editServerDialog.dismiss();
             }
         });
@@ -183,7 +183,9 @@ public class SigninActivity extends Activity {
         editServerDialog.show();
     }
 
-
-
+    private void updateServers() {
+        serverArrayAdapter.clear();
+        serverArrayAdapter.addAll(database.getServers());
+    }
 
 }
