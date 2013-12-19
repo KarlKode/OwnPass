@@ -75,7 +75,7 @@ curl -X GET -u marc:marcspassword http://127.0.0.1:5000/users/marc2
 }
 
 
-### PATCH /users/<username>
+### POST /users/<username>
 Update/change a user.
 
 #### Parameters ####
@@ -87,7 +87,7 @@ Optional:
 * Error: 404 If the user is not the same as the one from the authentication credentials
 
 #### Example ####
-curl -X PATCH -u marc:test -d "" http://127.0.0.1:5000/users/marc
+curl -X POST -u marc:test -d "" http://127.0.0.1:5000/users/marc
 {
     "updated_fields": [],
     "user": {
@@ -97,7 +97,7 @@ curl -X PATCH -u marc:test -d "" http://127.0.0.1:5000/users/marc
     }
 }
 
-curl -X PATCH -u marc:marcspassword -d "password=test" http://127.0.0.1:5000/users/marc
+curl -X POST -u marc:marcspassword -d "password=test" http://127.0.0.1:5000/users/marc
 {
     "updated_fields": [
         {
@@ -113,7 +113,7 @@ curl -X PATCH -u marc:marcspassword -d "password=test" http://127.0.0.1:5000/use
     }
 }
 
-curl -X PATCH -u marc:test -d "" http://127.0.0.1:5000/users/mar
+curl -X POST -u marc:test -d "" http://127.0.0.1:5000/users/mar
 {
     "message": "Invalid username"
 }
@@ -211,7 +211,7 @@ curl -X GET -u marc:test http://127.0.0.1:5000/passwords/3
 }
 
 
-### PATCH /passwords/<password_id> ###
+### POST /passwords/<password_id> ###
 Update/change a password entry.
 
 #### Parameters ####
@@ -227,7 +227,7 @@ Optional:
 * Error: 422 An object with the fields "message" and "errors" with a list of all errors that occured
 
 #### Example ####
-curl -X PATCH -u marc:test -d "title=google&url=https://www.google.com/" http://127.0.0.1:5000/passwords/4
+curl -X POST -u marc:test -d "title=google&url=https://www.google.com/" http://127.0.0.1:5000/passwords/4
 {
     "password": {
         "id": 4,

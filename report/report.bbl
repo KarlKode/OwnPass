@@ -1,0 +1,43 @@
+\begin{thebibliography}{1}
+
+\bibitem{Flask-Restful}
+{Flask-RESTful - Flask-RESTful 0.2.1 documentation}.
+\newblock \url{http://flask-restful.readthedocs.org/en/latest/}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{FlaskSQLAlchemy}
+{Flask-SQLAlchemy - Flask-SQLAlchemy 0.16 documentation}.
+\newblock \url{http://pythonhosted.org/Flask-SQLAlchemy/}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{KeePass}
+{KeePass Password Safe}.
+\newblock \url{http://keepass.info/}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{LastPass}
+{LastPass | The Last Password You Have to Remember}.
+\newblock \url{http://lastpass.com/}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{LastPassWiki}
+{LastPass Password Manager - Wikipedia, the free encyclopedia}.
+\newblock \url{https://en.wikipedia.org/wiki/LastPass}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{Python}
+{Python Programming Language - Official Website}.
+\newblock \url{http://python.org/}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{SQLAlchemy}
+{SQLAlchemy - The Database Toolkit for Python}.
+\newblock \url{http://www.sqlalchemy.org/}.
+\newblock Accessed on 19 Dec 2013.
+
+\bibitem{Flask}
+{Welcome | Flask (A Python Microframework)}.
+\newblock \url{http://flask.pocoo.org/}.
+\newblock Accessed on 19 Dec 2013.
+
+\end{thebibliography}
