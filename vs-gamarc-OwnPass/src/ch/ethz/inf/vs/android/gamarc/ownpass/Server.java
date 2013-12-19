@@ -7,12 +7,16 @@ public class Server {
     private String username;
     private String password;
 
-    public Server(long id, String name, String url, String username, String password) {
-        setId(id);
+    public Server(String name, String url, String username, String password) {
         setName(name);
         setUrl(url);
         setUsername(username);
         setPassword(password);
+    }
+
+    public Server(long id, String name, String url, String username, String password) {
+        this(name, url, username, password);
+        setId(id);
     }
 
     public long getId() {

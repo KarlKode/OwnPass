@@ -226,11 +226,58 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void addPassword(Password password) {
+    	SQLiteDatabase database = getWritableDatabase();
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_PASSWORD);
+    	
+    	ContentValues newPassword = new ContentValues();
+        newPassword.put(FIELD_PASSWORD_SERVER_ID, password.getServer().getId());
+        newPassword.put(FIELD_PASSWORD_SERVER_PASSWORD_ID, password.getServerId());		
+        newPassword.put(FIELD_PASSWORD_TITLE, password.getTitle());
+        newPassword.put(FIELD_PASSWORD_URL, password.getUrl());
+        newPassword.put(FIELD_PASSWORD_USERNAME, password.getUsername());
+        newPassword.put(FIELD_SERVER_PASSWORD, password.getPassword());
+
+        long newServerId = database.insert(TABLE_PASSWORD, null, newPassword);
+        if (newServerId == -1) {
+            // TODO error
+        } else {
+            password.setId(newServerId);
+        }
+
+        // Cleanup
+        database.close();
     }
 
     public void updatePassword(Password password) {
+    	SQLiteDatabase database = getWritableDatabase();
+    	
+        // Update the server with the given id and set the new values
+        ContentValues updatedPassword = new ContentValues();
+        updatedPassword.put(FIELD_PASSWORD_SERVER_ID, password.getServer().getId());
+        updatedPassword.put(FIELD_PASSWORD_SERVER_PASSWORD_ID, password.getServerId());		
+        updatedPassword.put(FIELD_PASSWORD_TITLE, password.getTitle());
+        updatedPassword.put(FIELD_PASSWORD_URL, password.getUrl());
+        updatedPassword.put(FIELD_PASSWORD_USERNAME, password.getUsername());
+        updatedPassword.put(FIELD_SERVER_PASSWORD, password.getPassword());
+
+        database.update(TABLE_SERVER, updatedPassword, String.format("%s=?", FIELD_SERVER_ID), new String[] {String.valueOf(password.getId())});
+
+        // Cleanup
+        database.close();
     }
 
     public void removePassword(Password password) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        // Remove server with the given id
+        database.delete(TABLE_PASSWORD, String.format("%s=?", FIELD_SERVER_ID), new String[]{String.valueOf(password.getId())});
+
+        // Cleanup
+        database.close();
     }
+
+	public void clearPasswords() {
+		 SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_PASSWORD);
+	}
 }
