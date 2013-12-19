@@ -56,7 +56,8 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
                 }
 
                 serverToConnect = server;
-                //UserPasswords userPasswords = new UserPasswords(this,)
+                UserPasswords userPasswords = new UserPasswords(SigninActivity.this, server, database);
+                userPasswords.execute();
             }
         });
 
@@ -204,9 +205,16 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
     }
 
     @Override
-    public void onError(int erroCode) {
+    public void onError(Exception e) {
         if (serverToConnect == null) {
             return;
         }
+
+        if (e == null) {
+            onSuccess(null);
+        }
+
+        Toast.makeText(this, "Could not log in", Toast.LENGTH_LONG).show();
+        serverToConnect = null;
     }
 }

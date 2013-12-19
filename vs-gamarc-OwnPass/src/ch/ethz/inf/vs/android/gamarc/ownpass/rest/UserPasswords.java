@@ -3,11 +3,7 @@ package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import ch.ethz.inf.vs.android.gamarc.ownpass.Database;
-import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
-import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordManagerActivity;
-import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordUpdateRequest;
-import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
+import ch.ethz.inf.vs.android.gamarc.ownpass.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -24,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserPasswords extends AsyncTask<Void, Void, String> {
+    private UserPasswordCallback callback;
     private Server server;
     private String authorizationString;
     private Database db;
+    private Exception exception;
 
-    public UserPasswords(Server server, Database d) {
+    public UserPasswords(UserPasswordCallback callback, Server server, Database d) {
+        this.callback = callback;
         this.server = server;
         db = d;
         authorizationString = "Basic " + Base64.encodeToString((server.getUsername() + ":" + server.getPassword())
@@ -56,13 +55,19 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
         try {
             HttpResponse response = httpClient.execute(httpGet);
             if (response.getStatusLine().getStatusCode() != 200) {
+                exception = null;
                 return null;
             }
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+            exception = e;
         } catch (IOException e) {
             e.printStackTrace();
+            exception = e;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            exception = e;
         }
 
         return null;
@@ -71,9 +76,10 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         if (response == null) {
+            callback.onError(exception);
             return;
         }
-        db.clearPasswords();
+
         List<Password> passwords = new ArrayList <Password>();
         JSONArray pws;
         try {
@@ -87,12 +93,14 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
                 String name = oneObject.getString("username");
                 String title = oneObject.getString("title");
 
-                db.addPassword(new Password(server, id, url, title, name, pw));
+                passwords.add(new Password(server, id, url, title, name, pw));
             }
            
         } catch (JSONException e) {
             Log.e(UserPasswords.class.toString(), "Failed to download file");
         }
+
+        callback.onSuccess(passwords);
     }
 
     public String getAuthorization() {

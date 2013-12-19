@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface UserPasswordCallback {
     public void onSuccess(List<Password> passwordList);
-    public void onError(int erroCode);
+    public void onError(Exception exception);
 }
