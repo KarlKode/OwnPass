@@ -1,6 +1,8 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
-public class PasswordManagerActivity {
+import java.util.ArrayList;
 
-    int ServerID;
+public class PasswordManagerActivity {
+	private ArrayList<Password> passwordsToUpdate = new ArrayList<Password>(); 
+	
 }
