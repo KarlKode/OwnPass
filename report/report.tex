@@ -1,0 +1,267 @@
+% This is based on "sig-alternate.tex" V1.9 April 2009
+% This file should be compiled with V2.4 of "sig-alternate.cls" April 2009
+%
+\documentclass{report}
+
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{enumitem}
+\usepackage{url}
+
+\usepackage{color}
+\definecolor{orange}{rgb}{1,0.5,0}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{java_keyword}{rgb}{0.37, 0.08, 0.25}
+\definecolor{java_string}{rgb}{0.06, 0.10, 0.98}
+\definecolor{java_comment}{rgb}{0.12, 0.38, 0.18}
+\definecolor{java_doc}{rgb}{0.25,0.35,0.75}
+
+% code listings
+
+\usepackage{listings}
+\lstloadlanguages{Java}
+\lstset{
+	language=Java,
+	basicstyle=\scriptsize\ttfamily,
+	backgroundcolor=\color{lightgray},
+	keywordstyle=\color{java_keyword}\bfseries,
+	stringstyle=\color{java_string},
+	commentstyle=\color{java_comment},
+	morecomment=[s][\color{java_doc}]{/**}{*/},
+	tabsize=2,
+	showtabs=false,
+	extendedchars=true,
+	showstringspaces=false,
+	showspaces=false,
+	breaklines=true,
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=6pt,
+	xleftmargin=3pt,
+	xrightmargin=3pt,
+	framexleftmargin=3pt,
+	framexrightmargin=3pt,
+	captionpos=b
+}
+
+% Disable single lines at the start of a paragraph (Schusterjungen)
+
+\clubpenalty = 10000
+
+% Disable single lines at the end of a paragraph (Hurenkinder)
+
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+ 
+% allows for colored, easy-to-find todos
+
+\newcommand{\todo}[1]{\textsf{\textbf{\textcolor{orange}{[[#1]]}}}}
+
+% consistent references: use these instead of \label and \ref
+
+\newcommand{\lsec}[1]{\label{sec:#1}}
+\newcommand{\lssec}[1]{\label{ssec:#1}}
+\newcommand{\lfig}[1]{\label{fig:#1}}
+\newcommand{\ltab}[1]{\label{tab:#1}}
+\newcommand{\rsec}[1]{Section~\ref{sec:#1}}
+\newcommand{\rssec}[1]{Section~\ref{ssec:#1}}
+\newcommand{\rfig}[1]{Figure~\ref{fig:#1}}
+\newcommand{\rtab}[1]{Table~\ref{tab:#1}}
+\newcommand{\rlst}[1]{Listing~\ref{#1}}
+
+% General information
+
+\title{Distributed Systems -- Assignment 4}
+
+% Use the \alignauthor commands to handle the names
+% and affiliations for an 'aesthetic maximum' of six authors.
+
+\numberofauthors{3} %  in this sample file, there are a *total*
+% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+% reasons) and the remaining two appear in the \additionalauthors section.
+%
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor C\'edric B\"urke\\
+	\affaddr{ETH ID 08-918-120}\\
+	\email{cbuerke@student.ethz.ch}
+% 2nd. author
+\alignauthor Kevin Kipfer\\
+	\affaddr{ETH ID 09-929-993}\\
+	\email{kkipfer@student.ethz.ch}
+%% 3rd. author
+\alignauthor Marc G\"ahwiler\\
+	\affaddr{ETH ID 10-927-796}\\
+	\email{gamarc@student.ethz.ch}
+}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+For the final project we decided to tackle the task to design and develop a completely open sourced password managing solution. Because the first part of this course mainly focused on Android development, we decided to begin our journey by developing a simple backend server application and then concentrating on implementing a basic Android application, that allows to use the server we previously created.
+
+All in all we are content with ourselves, as we think that we succeeded in developing a basic proof-of-concept application, that is already usable. Still, we want to keep the project alive and therefore mentioned a few ideas how the project can be improved in the future.
+\end{abstract}
+
+\section{Problem Statement and Requirements}
+Everybody that uses a few different sites that use basic username/password authentication knows the problem: even though it is clear, that you should not use the same password on two different websites, almost everybody is too lazy or forgetful to use a different password on each website he uses.
+
+To counter this problem and make it easier for everybody to use an unique password for every site, so called password managers exist. In the following paragraphs we list some examples of existing password managers and why we do not consider them to be a satisfying solution.
+
+\subsection{KeePass/KeePassX}
+KeePass is a free open source password manager, which helps you to manage your passwords in a secure way. You can put all your passwords in one database, which is locked with one master key or a key file. So you only have to remember one single master password or select the key file to unlock the whole database. The databases are encrypted using the best and most secure encryption algorithms currently known (AES and Twofish). \cite{KeePass}
+
+\subsubsection{Pros}
+\begin{itemize}
+	\item Free
+	\item Open-Source
+	\item Using tested and known encryption algorithms
+	\item Available on a huge number of platforms
+	\item Actively developed
+\end{itemize}
+
+\subsubsection{Cons}
+\begin{itemize}
+	\item Two different main source trees (KeePass 2 and KeePass X)
+	\item Passwords are stored in a file, thus to keep the password synchronized over more than one device, the password file itself has to be synchronized, which can be quite difficult
+	\item Browser integration is complicated
+\end{itemize}
+
+\subsection{LastPass}
+LastPass Password Manager is a freemium password management service developed by LastPass. It is available as a plugin for Internet Explorer, Mozilla Firefox, Google Chrome, Opera, and Safari. There is also a LastPass Password Manager bookmarklet for other browsers.\cite{LastPass} \cite{LastPassWiki}
+
+\subsubsection{Pros}
+\begin{itemize}
+	\item Web application is free
+	\item As far as we know it is using tested and known encryption algorithms
+	\item Web application with plugins for all mayor browsers
+	\item Android and iPhone application
+	\item All passwords are distributed to all clients
+\end{itemize}
+
+\subsubsection{Cons}
+\begin{itemize}
+	\item Mobile applications are not available for free users
+	\item Closed source
+	\item For profit company that could potentially have access to all of your passwords and therefore all your accounts
+	\item US company
+\end{itemize}
+
+\subsection{Other solutions}
+While we researched this topic we came across a few other possible solutions, but they all fell into one of the two categories we mentioned above: either they were offered by for profit companies or the were free or even open source, but there was no possibility to distribute the passwords to all possible clients (like a desktop computer, a laptop, an office computer, a smartphone and a tablet) a user owns.
+
+\section{Requirements}
+Because of the reasons mentioned in the last section, we decided to develop a service that satisfies a larger number of our needs which include but are not limited to:
+
+\begin{itemize}
+	\item Open source
+	\item Using well-known and -tested cryptographic algorithms
+	\item Available at least as a web application, a browser plugin and mobile applications for Android and iOS
+	\item Possibility to distribute the stored passwords to all (or at least a majority) of all devices a user uses
+	\item Not controlled by a company
+\end{itemize}
+
+To achieve this goal we decided to begin with developing a simple Android application, that offers a user to synchronize a list of passwords with a server. It should be possible for every user to host his own password database server if he has some basic system administrator knowledge to host a server and run a basic python application on it.
+
+\section{Architecture}
+
+As we knew that it is not really viable to implement all our planned features, we decided to stay simple and just implement the most important features. This includes basic user management (login by a username and a password), password encryption and storage (encrypted with the master password).
+
+\subsection{Backend}
+For developing the backend we used
+\begin{itemize}
+	\item Python \cite{Python}
+	\item Flask \cite{Flask} a python web microframework
+	\item SQLAlchemy \cite{SQLAlchemy} a python ORM and the flask version Flask-SQLAlchemy \cite{FlaskSQLAlchemy}
+	\item Flask-Restful \cite{Flask-Restful} to provide a simple REST interface to the Android application
+\end{itemize}
+
+We currently provide the following REST endpoints to the Android application to communicate with the backend:
+
+\begin{itemize}
+	\item TODO: add possbile requests from the readme
+\end{itemize}
+
+Basically at the moment the web application is just a simple wrapper around a SQLite database. Still, this was enough for us to develop the application.
+
+\subsection{Communication}
+
+TODO: Some source code and a basic description about AsyncTask and how HTTP requests were done
+
+\subsection{Interface}
+
+TODO: Describe the interface, maybe a state diagram and of course a few screenshots
+
+\section{Implementation}
+
+\subsection{TODO: More implementation details}
+
+\subsection{Cryptography}
+As we all know that cryptography is hard and a pain, we used the standard Java javax.crypto cryptography library to implement hashing, encryption and decryption.
+
+We decided to use the well known AES symetric encryption cipher in CBC mode and used PKCS5 as the padding scheme:
+
+\lstset{language=Java,caption={SensorWrapper class},label=code} 
+\begin{lstlisting}
+public Encryption(Server server) {
+        ...
+        cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        ...
+    }
+    
+    ...
+    
+    public byte[] encrypt(String toEncrypt) {
+        ...
+        // Generate random IV
+        
+		...        
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] encryptedString = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
+        ...
+    }
+    ...
+}
+\end{lstlisting}
+
+At the moment we simply hash the password using the hashing algorithm SHA256 and transfer the hashed password to the server via the REST API. At the same time we use the same hash to de- and encrypt the users usernames and passwords, which of course is a fatal mistake. But for our purposes this suffices, as we do not want anyone to use our system in production yet.
+
+It is important to mention, that we decided to encode all passwords with Base64 to make it easier to debug the connection because of the lack of any binary transfers.
+
+\subsection{Problems}
+\subsubsection{Callback stuff}
+\subsubsection{Long clicks}
+\subsubsection{TODO: More problems}
+
+\section{Further Plans}
+\subsection{More Features}
+\subsection{}
+
+\section{Conclusion}
+
+
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+\bibliography{report}  % sigproc.bib is the name of the Bibliography in this case
+% You must have a proper ".bib" file
+
+%\balancecolumns % GM June 2007
+
+\end{document}
