@@ -90,6 +90,8 @@ public class PasswordUpdateRequest extends AsyncTask<String, Void, String> {
 		} catch (JSONException e) {
 			Log.e(PasswordUpdateRequest.class.toString(), "Failed to download file");
 		}
+		
+		//TODO callback
 	}
 	
 	public ArrayList<Password> getPasswords(){

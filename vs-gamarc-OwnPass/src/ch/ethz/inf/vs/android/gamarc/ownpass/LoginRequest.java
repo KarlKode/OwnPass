@@ -6,23 +6,26 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 
 import java.io.IOException;
 
-public class LoginRequest extends AsyncTask<Void, Void, Void> {
+public class LoginRequest extends AsyncTask<Void, Void, String> {
 	private DefaultHttpClient httpClient = new DefaultHttpClient();
 	private ResponseHandler<String> responseHandler = new BasicResponseHandler();
 	private HttpGet httpGet;
 	
     private static String URL = "/users/%s";
     private static String authorizationString;
-    private String response;
+    private String username;
+    private boolean responded = false;
     
     public LoginRequest(Server s){
       
-    	String username = new String(Base64.decode(s.getEncryptedLogin(), Base64.DEFAULT));
+    	username = new String(Base64.decode(s.getEncryptedLogin(), Base64.DEFAULT));
         String password = new String(Base64.decode(s.getEncryptedPW(), Base64.DEFAULT));
         
         URL = s.getUrl()+URL+username;
@@ -35,25 +38,30 @@ public class LoginRequest extends AsyncTask<Void, Void, Void> {
      }
 
     @Override
-    protected Void doInBackground(Void... params) {//no parameters
-    	response = null;
+    protected String doInBackground(Void... params) {//no parameters
+    	String response = null;
         try {
             response = httpClient.execute(httpGet, responseHandler);
         } catch (IOException e) {
             e.printStackTrace();
         }
         //System.out.println("response :" + response);
-        return null;
+        return response;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-       
-        
-        //TODO  handle response;
-        
-        
+    protected void onPostExecute(String response) {
+    	  //  super.onPostExecute(check);
+	     try {
+			JSONObject oneObject = new JSONObject(response);
+		    String login = oneObject.getString("username");
+		    if(login.equals(username))
+		    	responded = true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	     
+	     //TODO callback
     }
     
     public String getAuthorization(){
@@ -64,12 +72,12 @@ public class LoginRequest extends AsyncTask<Void, Void, Void> {
     	return URL;
     }
     
-	public boolean isConnected(){
-		boolean res = false;
+	public void isConnected(){
+		responded = false;
 		this.execute();
-		if(response != null)	
-			res = true;
-		return res;
+		
+		//TODO callback
+		//return responded;
 	}
     
 }
