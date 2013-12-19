@@ -46,9 +46,8 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
-
-        HttpGet httpGet;
-        httpGet = new HttpGet(getUrl());
+        
+        HttpGet httpGet = new HttpGet(getUrl());
         httpGet.setHeader("Content-Type", "application/json");
         httpGet.setHeader("Authorization", authorizationString);
 
@@ -68,6 +67,9 @@ public class UserPasswords extends AsyncTask<Void, Void, String> {
         } catch (IllegalStateException e) {
             e.printStackTrace();
             exception = e;
+        } catch (IllegalArgumentException e){
+        	 e.printStackTrace();
+             exception = e;
         }
 
         return null;

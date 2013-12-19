@@ -44,6 +44,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         db = new Database(this);
         Intent intent = getIntent();
         server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
+
         upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
