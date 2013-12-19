@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
 
 public class PasswordManagerActivity extends Activity{
 
@@ -23,25 +26,23 @@ public class PasswordManagerActivity extends Activity{
     EditText url;
     EditText password;
 	private Database db;
-
-	public PasswordManagerActivity(Database db){
-		this.db = db;
-	}
-
-
+	private UserPasswords upass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_manager);
 
-        ArrayList<Password> passwordList = new ArrayList<Password>();
+        List<Password> passwordList = new ArrayList<Password>();
 
         Server server = new Server(1,"o", "b", "c", "t");
+
         byte[] b = {1,2,6,3};
         Password pass = new Password(server, 14,"title","url",b ,b);
         passwordList.add(pass);
+        
         db = new Database(this);
+        upass = new UserPasswords(server, db);
         passwordList = getPasswords(server);
 
         //Add Server entries to the listview
@@ -108,32 +109,25 @@ public class PasswordManagerActivity extends Activity{
     }
 
     private void showPassword(Password pw){
-
+    	
     }
-
-
-	public void addPasswords(){
-
-	}
+ 
 	
 	public void update(){
-		
+		upass.execute();
 	}
 	
 	private void save(Password pw){
+		db.addPassword(pw);
 		
 	}
 	
 	private void delete(Password pw){
-		
+		db.removePassword(pw);
 	}
 	
-	private void change(Password pw){
-		
-	}
 
-    private ArrayList<Password>getPasswords(Server server){
-
-        return null;
+    private List<Password>getPasswords(Server server){
+    	return db.getPasswords(server.getId());
     }
 }
