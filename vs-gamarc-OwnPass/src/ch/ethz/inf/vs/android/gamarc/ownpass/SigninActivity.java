@@ -1,6 +1,7 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -64,15 +65,15 @@ public class SigninActivity extends Activity {
                 }
 
                 // Create intent to switch to the SensorActivity
-               // Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
+               Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
                 // Pass the sensor as an extra to the SensorActivity
                // intent.putExtra(EXTRA_SENSOR, sensorWrapper.getSensor().toString());
-               // startActivity(intent);
+                startActivity(intent);
             }
         });
 
 
-        lvServer.setLongClickable(true);
+      lvServer.setLongClickable(true);
       lvServer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
           public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
               Server server = (Server) parent.getItemAtPosition(position);
@@ -138,14 +139,14 @@ public class SigninActivity extends Activity {
     private void editServer(Server server){
         editServerDialog = new Dialog(SigninActivity.this);
         editServerDialog.setContentView(R.layout.dialog_signin);
-        serverName = (EditText)addServerDialog.findViewById(R.id.servername);
-        serverUrl = (EditText)addServerDialog.findViewById(R.id.url);
-        serverLogin = (EditText)addServerDialog.findViewById(R.id.username);
-        serverPassword = (EditText)addServerDialog.findViewById(R.id.password);
+        serverName = (EditText)editServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText)editServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText)editServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText)editServerDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button)addServerDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button)addServerDialog.findViewById(R.id.canbtn);
-        addServerDialog.setTitle("Edit Server");
+        saveDialogBtn = (Button)editServerDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button)editServerDialog.findViewById(R.id.canbtn);
+        editServerDialog.setTitle("Edit Server");
 
         serverName.setText(server.getName(), TextView.BufferType.EDITABLE);
         serverUrl.setText(server.getUrl(), TextView.BufferType.EDITABLE);
@@ -156,17 +157,17 @@ public class SigninActivity extends Activity {
             public void onClick(View view) {
                 // TODO Update Databaseentry
 
-                addServerDialog.dismiss();
+                editServerDialog.dismiss();
             }
         });
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                addServerDialog.dismiss();
+                editServerDialog.dismiss();
             }
         });
-        addServerDialog.show();
+        editServerDialog.show();
     }
 
 
