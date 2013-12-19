@@ -100,21 +100,36 @@ public class PasswordManagerActivity extends Activity{
     private void showPassword(Password pw){
 
     }
-
-    public void displayPasswords(){
-
-    }
+<<<<<<< .mine
 
 
-    private void save(Password pw){
 
-    }
 
-    private void delete(Password pw){
+=======
+	
+	public void displayPasswords(){
+		
+	}
+>>>>>>> .theirs
 
-    }
-
-    private void change(Password pw){
-
-    }
+	/*
+	public void addPasswords(){
+		
+	}
+	
+	public void update(){
+		
+	} */
+	
+	private void save(Password pw){
+		
+	}
+	
+	private void delete(Password pw){
+		
+	}
+	
+	private void change(Password pw){
+		
+	}
 }

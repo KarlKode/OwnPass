@@ -11,8 +11,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class PasswordSender extends AsyncTask<Password, Void, String> {
     private Server server;
     protected String authorizationString;
