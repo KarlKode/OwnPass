@@ -26,19 +26,14 @@ public class SigninActivity extends Activity {
     EditText serverPassword;
     Button saveDialogBtn;
     Button cancelDialogBtn;
-    ServerDataBaseHelper sHelper;
+    Database database;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signin);
 
-      /*  sHelper = new ServerDataBaseHelper(this);
-
-
-        List<Server> servers = sHelper.get_All_Server();*/
-
-        sHelper = new ServerDataBaseHelper(this);
+        database = new Database(this);
         List<Server> servers = new ArrayList<Server>();//testing
         Server testServer = new Server(1,"url", "Testserver", "login", "password");
 
@@ -154,7 +149,7 @@ public class SigninActivity extends Activity {
 
         serverName.setText(server.getName(), TextView.BufferType.EDITABLE);
         serverUrl.setText(server.getUrl(), TextView.BufferType.EDITABLE);
-        serverLogin.setText(server.getLogin(), TextView.BufferType.EDITABLE);
+        serverLogin.setText(server.getUsername(), TextView.BufferType.EDITABLE);
 
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override

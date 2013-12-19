@@ -191,7 +191,35 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public List<Password> getPasswords(long serverId) {
-        return null;
+        SQLiteDatabase database = getReadableDatabase();
+
+        // Query all passwords
+        ArrayList<Password> passwords = new ArrayList<Password>();
+        Cursor cursor = database.query(TABLE_PASSWORD,
+                new String[] {FIELD_PASSWORD_ID, FIELD_PASSWORD_SERVER_ID, FIELD_PASSWORD_TITLE, FIELD_PASSWORD_URL,
+                        FIELD_PASSWORD_USERNAME, FIELD_SERVER_PASSWORD},
+                null,
+                null,
+                null,
+                null,
+                FIELD_PASSWORD_ID);
+        if (cursor.moveToFirst()) {
+            do {
+                long id = cursor.getLong(cursor.getColumnIndex(FIELD_PASSWORD_ID));
+                Server server = getServer(cursor.getLong(cursor.getColumnIndex(FIELD_PASSWORD_SERVER_ID)));
+                String title = cursor.getString(cursor.getColumnIndex(FIELD_PASSWORD_TITLE));
+                String url = cursor.getString(cursor.getColumnIndex(FIELD_PASSWORD_URL));
+                byte[] username = cursor.getBlob(cursor.getColumnIndex(FIELD_PASSWORD_USERNAME));
+                byte[] password = cursor.getBlob(cursor.getColumnIndex(FIELD_PASSWORD_PASSWORD));
+                passwords.add(new Password(id, server, title, url, username, password));
+            } while (cursor.moveToNext());
+        }
+
+        // Cleanup
+        cursor.close();
+        database.close();
+
+        return passwords;
     }
 
     public void addPassword(Password password) {
