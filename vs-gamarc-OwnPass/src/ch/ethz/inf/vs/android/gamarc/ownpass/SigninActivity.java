@@ -128,7 +128,7 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
 
     private void editServer(final Server server) {
         editServerDialog = new Dialog(SigninActivity.this);
-        editServerDialog.setContentView(R.layout.dialog_add_server_signin);
+        editServerDialog.setContentView(R.layout.dialog_edit_server_signin);
         serverName = (EditText) editServerDialog.findViewById(R.id.servername);
         serverUrl = (EditText) editServerDialog.findViewById(R.id.url);
         serverLogin = (EditText) editServerDialog.findViewById(R.id.username);
