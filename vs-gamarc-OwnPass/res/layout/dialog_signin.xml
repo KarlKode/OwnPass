@@ -71,6 +71,13 @@
         android:layout_alignLeft="@+id/password"
         android:layout_below="@+id/password"
         android:text="Cancel" />
+    <Button
+        android:id="@+id/delbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/password"
+        android:layout_below="@+id/password"
+        android:text="Cancel" />
 
     </LinearLayout>
 
