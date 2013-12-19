@@ -48,11 +48,7 @@
         android:fontFamily="sans-serif"
         android:hint="@string/password"/>
 
-    <!--<Button
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/button_dialog_signin"
-        android:text="@string/save"/>-->
+
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

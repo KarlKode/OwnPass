@@ -22,6 +22,10 @@ public class PasswordManagerActivity extends Activity{
     EditText username;
     EditText url;
     EditText password;
+    Button delDialogBtn;
+    Button cancelDialogBtn;
+    Button saveDialogBtn;
+
 	private Database db;
 
 	public PasswordManagerActivity(Database db){
@@ -46,9 +50,9 @@ public class PasswordManagerActivity extends Activity{
 
         //Add Server entries to the listview
         ListView lvPass = (ListView) findViewById(R.id.list_view_pwd);
-        ArrayAdapter<Password> serverArrayAdapter = new ArrayAdapter<Password>(this,
+        ArrayAdapter<Password> passwordArrayAdapter = new ArrayAdapter<Password>(this,
                 android.R.layout.simple_list_item_1, passwordList);
-        lvPass.setAdapter(serverArrayAdapter);
+        lvPass.setAdapter(passwordArrayAdapter);
 
 
         //start OnCLickListener to the password ListView
@@ -77,7 +81,7 @@ public class PasswordManagerActivity extends Activity{
 
         //start OnClickListerner for the button
 
-        Button addPasswordButton = (Button) findViewById(R.id.activity_signin_button);
+        Button addPasswordButton = (Button) findViewById(R.id.activity_manager_button);
         addPasswordButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -101,22 +105,108 @@ public class PasswordManagerActivity extends Activity{
 
     private void addNewPassword(){
 
+        addPwDialog = new Dialog(PasswordManagerActivity.this);
+        addPwDialog.setContentView(R.layout.dialog_signin);
+        title = (EditText)addPwDialog.findViewById(R.id.activity_manager_button);
+        url = (EditText)addPwDialog.findViewById(R.id.url);
+        username = (EditText)addPwDialog.findViewById(R.id.username);
+        password = (EditText)addPwDialog.findViewById(R.id.password);
+
+        saveDialogBtn = (Button)addPwDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button)addPwDialog.findViewById(R.id.canbtn);
+        addPwDialog.setTitle("Add new Password");
+
+        saveDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Create Databaseentry
+
+                addPwDialog.dismiss();
+            }
+        });
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                addPwDialog.dismiss();
+            }
+        });
+        addPwDialog.show();
+
     }
 
     private void editPassword(Password pw){
+
+        editPwDialog = new Dialog(PasswordManagerActivity.this);
+        editPwDialog.setContentView(R.layout.dialog_signin);
+        title = (EditText)editPwDialog.findViewById(R.id.servername);
+        url = (EditText)editPwDialog.findViewById(R.id.url);
+        username = (EditText)editPwDialog.findViewById(R.id.username);
+        password = (EditText)editPwDialog.findViewById(R.id.password);
+
+        saveDialogBtn = (Button)editPwDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button)editPwDialog.findViewById(R.id.canbtn);
+        delDialogBtn = (Button)editPwDialog.findViewById(R.id.list_view_pwd);
+
+        editPwDialog.setTitle("Edit Password");
+
+        saveDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Create Databaseentry
+
+                editPwDialog.dismiss();
+            }
+        });
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Auto-generated method stub
+                editPwDialog.dismiss();
+            }
+        });
+        editPwDialog.show();
 
     }
 
     private void showPassword(Password pw){
 
+        showPwDialog = new Dialog(PasswordManagerActivity.this);
+        showPwDialog.setContentView(R.layout.dialog_signin);
+        title = (EditText)showPwDialog.findViewById(R.id.servername);
+        url = (EditText)showPwDialog.findViewById(R.id.url);
+        username = (EditText)showPwDialog.findViewById(R.id.username);
+        password = (EditText)showPwDialog.findViewById(R.id.password);
+
+        saveDialogBtn = (Button)showPwDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button)showPwDialog.findViewById(R.id.canbtn);
+        showPwDialog.setTitle(pw.getTitle());
+
+        saveDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Create Databaseentry
+
+                showPwDialog.dismiss();
+            }
+        });
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Auto-generated method stub
+                showPwDialog.dismiss();
+            }
+        });
+        showPwDialog.show();
+
     }
 
 
-	public void addPasswords(){
+	private void addPasswords(){
 
 	}
 	
-	public void update(){
+	private void update(){
 		
 	}
 	
