@@ -87,6 +87,18 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
         return true;
     }
 
+<<<<<<< HEAD
+    private void addNewServer(){
+        //TODO call dialog with dialog_addServer_signinver_signin.xml
+        //http://developer.android.com/guide/topics/ui/dialogs.html
+
+        addServerDialog = new Dialog(SigninActivity.this);
+        addServerDialog.setContentView(R.layout.dialog_addServer_signin);
+        serverName = (EditText)addServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText)addServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText)addServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText)addServerDialog.findViewById(R.id.password);
+=======
     private void addNewServer() {
         //TODO call dialog with dialog_signin.xml
         //http://developer.android.com/guide/topics/ui/dialogs.html
@@ -97,6 +109,7 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
         serverUrl = (EditText) addServerDialog.findViewById(R.id.url);
         serverLogin = (EditText) addServerDialog.findViewById(R.id.username);
         serverPassword = (EditText) addServerDialog.findViewById(R.id.password);
+>>>>>>> cfd3848e2dc0cfe11fc4a6fcad2d284bf49a6b22
 
         saveDialogBtn = (Button) addServerDialog.findViewById(R.id.savebtn);
         cancelDialogBtn = (Button) addServerDialog.findViewById(R.id.canbtn);
@@ -128,11 +141,19 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
 
     private void editServer(final Server server) {
         editServerDialog = new Dialog(SigninActivity.this);
+<<<<<<< HEAD
+        editServerDialog.setContentView(R.layout.dialog_addServer_signin);
+        serverName = (EditText)editServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText)editServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText)editServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText)editServerDialog.findViewById(R.id.password);
+=======
         editServerDialog.setContentView(R.layout.dialog_signin);
         serverName = (EditText) editServerDialog.findViewById(R.id.servername);
         serverUrl = (EditText) editServerDialog.findViewById(R.id.url);
         serverLogin = (EditText) editServerDialog.findViewById(R.id.username);
         serverPassword = (EditText) editServerDialog.findViewById(R.id.password);
+>>>>>>> cfd3848e2dc0cfe11fc4a6fcad2d284bf49a6b22
 
         saveDialogBtn = (Button) editServerDialog.findViewById(R.id.savebtn);
         cancelDialogBtn = (Button) editServerDialog.findViewById(R.id.canbtn);

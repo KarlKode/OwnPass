@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+    package="ch.ethz.inf.vs.android.gamarc.ownpass"
+    android:versionCode="1"
+    android:versionName="1.0" >
+=======
           package="ch.ethz.inf.vs.android.gamarc.ownpass"
           android:versionCode="1"
           android:versionName="1.0" >
+>>>>>>> cfd3848e2dc0cfe11fc4a6fcad2d284bf49a6b22
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,7 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+    </application>
+
+</manifest>
+=======
         <activity android:name=".PasswordManagerActivity"/>
     </application>
 
 </manifest>
+>>>>>>> cfd3848e2dc0cfe11fc4a6fcad2d284bf49a6b22

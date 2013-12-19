@@ -93,4 +93,6 @@ public class Password {
     public void setPassword(byte[] password) {
         this.password = password;
     }
+
+    public String toString(){return title;}
 }
