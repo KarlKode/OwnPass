@@ -1,7 +1,10 @@
-package ch.ethz.inf.vs.android.gamarc.ownpass;
+package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
+import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordUpdateRequest;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPut;
@@ -11,11 +14,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PasswordSender extends AsyncTask<Password, Void, String> {
+public class PasswordAdd extends AsyncTask<Password, Void, String> {
     private Server server;
     protected String authorizationString;
 
-    public PasswordSender(Server s, String authorizationString) {
+    public PasswordAdd(Server s, String authorizationString) {
         this.server = server;
         this.authorizationString = authorizationString;
     }

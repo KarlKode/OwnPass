@@ -1,7 +1,10 @@
-package ch.ethz.inf.vs.android.gamarc.ownpass;
+package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
+import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordUpdateRequest;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
@@ -12,13 +15,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PasswordDeleteSender extends AsyncTask<Password, Void, String> {
+public class PasswordDelete extends AsyncTask<Password, Void, String> {
 
     private Server server;
     private String authorizationString;
     private ArrayList<Password> pToUp;
 
-    public PasswordDeleteSender(Server server, String authorizationString) {
+    public PasswordDelete(Server server, String authorizationString) {
         this.server = server;
         this.authorizationString = authorizationString;
     }

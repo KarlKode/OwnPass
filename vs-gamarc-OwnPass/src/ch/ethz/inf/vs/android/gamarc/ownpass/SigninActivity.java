@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,26 +41,8 @@ public class SigninActivity extends Activity {
         Server testServer1 = new Server(1,"http://marcg.ch:5000/", "marc2", "login", "password");
 
         servers.add(testServer1); //testing
-
         Server testServer2 = new Server(2,"http://marcg.ch:5000/", "marc", "login2", "password2");
-        
-
         servers.add(testServer2); //testing
-        
-        LoginRequest lr = new LoginRequest(testServer1);
-        lr.execute();
- 
-        try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-        
-        Password p1 = new Password(testServer1, 0,"abc" , "www.a.b.c", "k".getBytes(), "kk".getBytes());
-        
-
 
         //Add Server entries to the listview
         ListView lvServer = (ListView) findViewById(R.id.list_view);
@@ -108,7 +91,12 @@ public class SigninActivity extends Activity {
             }
         });
 
-	}
+        // Debug stuff
+        Server marcgTest = new Server(0, "testserver", "http://marcg.ch:5000/", "test", "foo");
+        UserPasswords r = new UserPasswords(marcgTest);
+        r.execute();
+
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

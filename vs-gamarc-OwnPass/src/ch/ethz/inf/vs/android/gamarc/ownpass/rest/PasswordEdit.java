@@ -1,6 +1,8 @@
-package ch.ethz.inf.vs.android.gamarc.ownpass;
+package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 
 import android.util.Log;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
+import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -8,10 +10,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public class PasswordEditSender extends PasswordSender {
+public class PasswordEdit extends PasswordAdd {
     private Server server;
 
-    public PasswordEditSender(Server server, String authorizationString) {
+    public PasswordEdit(Server server, String authorizationString) {
         super(server, authorizationString);
     }
 
