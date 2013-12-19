@@ -1,42 +1,57 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
 public class Server {
-	private int SERVER_ID;
-	private String LOGIN;
-	private String PASSWORD;
-	private String SERVER_NAME;
-	private String SERVER_URL;
-	
-	public int getId(){
-		return this.SERVER_ID;
-	}
-	
-	public String getUrl(){
-		return this.SERVER_URL;
-	}
-	
-	public String getName(){
-		return this.SERVER_NAME;
-	}
-	
-	public void setID(int id){
-		 this.SERVER_ID = id;
-	}
-	
-	public String getEncryptedLogin(){
-		return this.LOGIN;
-	}
-	
-	public String getEncryptedPW(){
-		return this.PASSWORD;
-	}
-	
-	public Server(int Server_id, String url, String Server_name, String login, String password){
-		SERVER_ID = Server_id;
-		SERVER_URL = url;
-		SERVER_NAME = Server_name;
-		PASSWORD = password;
-		LOGIN = login;	
-	}
+    private long id;
+    private String name;
+    private String url;
+    private String username;
+    private String password;
 
+    public Server(long id, String name, String url, String username, String password) {
+        setId(id);
+        setName(name);
+        setUrl(url);
+        setUsername(username);
+        setPassword(password);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
