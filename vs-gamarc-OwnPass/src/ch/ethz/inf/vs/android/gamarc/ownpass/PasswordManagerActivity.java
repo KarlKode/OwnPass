@@ -122,7 +122,11 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Create Databaseentry
+               String t = title.getText().toString();
+                String ur = url.getText().toString();
+                String us = username.getText().toString();
+                String p = password.getText().toString();
+                save(t, ur, us, p);
 
                 addPwDialog.dismiss();
             }
@@ -168,6 +172,16 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
                 editPwDialog.dismiss();
             }
         });
+
+        delDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+          //      delete(pw.getId());
+                editPwDialog.dismiss();
+            }
+        });
+
+
         editPwDialog.show();
 
     }
@@ -203,13 +217,13 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
 
     }
 
-    private void save(Password pw) {
+    private void save(String title, String url, String username, String password) {
         db.addPassword(pw);
 
     }
 
-    private void delete(Password pw) {
-        db.removePassword(pw);
+    private void delete(long pwid) {
+ //       db.removePassword(pwid);
     }
 
     private List<Password> getPasswords(Server server) {
