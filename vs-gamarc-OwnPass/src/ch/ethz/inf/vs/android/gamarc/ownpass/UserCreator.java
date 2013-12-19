@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
-import org.apache.commons.lang3.RandomStringUtils;
+//import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPut;

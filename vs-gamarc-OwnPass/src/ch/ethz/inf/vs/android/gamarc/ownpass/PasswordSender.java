@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import java.net.URLEncoder;
 
 public class PasswordSender extends AsyncTask<Password, Void, String>{
 	
@@ -21,6 +22,9 @@ public class PasswordSender extends AsyncTask<Password, Void, String>{
     private static String authorizationString;
     private static String SERVER_NAME;
     private ArrayList<Password> pToUp;
+    
+	private boolean responded = false;
+	private boolean working = false; 
 	
     public PasswordSender(Server s, String authorization){
     	SERVER_NAME = s.getName();
@@ -31,15 +35,13 @@ public class PasswordSender extends AsyncTask<Password, Void, String>{
     public void execute(ArrayList<Password> pToUp){
     	this.pToUp =pToUp;
     	for(Password p : pToUp){
+    		working = true;
     		this.execute(p);
-
-    		//TODO wait -> get responded
-//   		 if(responded){
-//   	    	 pToUp.remove(p)
-//   	     }
+    		while(working);
+   		 	if(responded){
+   		 		pToUp.remove(p);
+   		 	}
     	}
-    	
-    	//TODO callback
     }
     
 	@Override
@@ -53,7 +55,7 @@ public class PasswordSender extends AsyncTask<Password, Void, String>{
 			 httpPut.setHeader("Content-type", "application/json");
 			 httpPut.setHeader("Authorization", authorizationString);
 			 
-			String json = writePasswordObject(params[0]).toString();
+			String json = createBody(params[0]);
 			 StringEntity se = new StringEntity(json);
 			 httpPut.setEntity(se);
 			 
@@ -65,25 +67,17 @@ public class PasswordSender extends AsyncTask<Password, Void, String>{
 		 return result;
 	}
 
-	private JSONObject writePasswordObject(Password pw){
-		JSONObject object = new JSONObject();
-		  try {
-		    object.put("id", pw.getSiteId());
-		    object.put("password", pw.getEncryptedPW());
-		    object.put("title", pw.getSiteName());
-		    object.put("url", pw.getUrl());
-		    object.put("user_id", SERVER_NAME);
-		    object.put("username", pw.getEncryptedLogin());
-		  } catch (JSONException e) {
-		    e.printStackTrace();
-		  }
-		return object;
+	private String createBody(Password pw){
+		  String title = pw.getSiteName();
+		  String url = pw.getUrl();
+		  String username = pw.getEncryptedLogin();
+		  String password = pw.getEncryptedPW();
+		return String.format("title=%s&url=%s&username=%s&password=%s", title, url, username, password);
 	}
 
 	 @Override
 	 protected void onPostExecute(String response) {
 	     // handle response;
-   		 boolean responded = false;
 		 try {
 				JSONObject oneObject = new JSONObject(response);
 			    String login = oneObject.getString("user_id");
@@ -93,10 +87,6 @@ public class PasswordSender extends AsyncTask<Password, Void, String>{
 				Log.e(PasswordUpdateRequest.class.toString(), "Failed to download file: " + e.getMessage());
 			}
 		 
-		 //TODO callback -> return responded
-		 
+		 working = false;
 	}
-	 
-	 
-	 
 }
