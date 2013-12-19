@@ -49,6 +49,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         pdel = new PasswordDelete(server, authorizationString);
         pedit = new PasswordEdit(server, authorizationString);
         passwordList = getPasswords(server);
+        
 
         //Add Server entries to the listview
         ListView lvPass = (ListView) findViewById(R.id.list_view_pwd);
