@@ -106,7 +106,7 @@ public class PasswordManagerActivity extends Activity{
     private void addNewPassword(){
 
         addPwDialog = new Dialog(PasswordManagerActivity.this);
-        addPwDialog.setContentView(R.layout.dialog_signin);
+        addPwDialog.setContentView(R.layout.dialog_add_pwd);
         title = (EditText)addPwDialog.findViewById(R.id.activity_manager_button);
         url = (EditText)addPwDialog.findViewById(R.id.url);
         username = (EditText)addPwDialog.findViewById(R.id.username);
@@ -138,7 +138,7 @@ public class PasswordManagerActivity extends Activity{
     private void editPassword(Password pw){
 
         editPwDialog = new Dialog(PasswordManagerActivity.this);
-        editPwDialog.setContentView(R.layout.dialog_signin);
+        editPwDialog.setContentView(R.layout.dialog_edit_pwd);
         title = (EditText)editPwDialog.findViewById(R.id.servername);
         url = (EditText)editPwDialog.findViewById(R.id.url);
         username = (EditText)editPwDialog.findViewById(R.id.username);
@@ -172,7 +172,7 @@ public class PasswordManagerActivity extends Activity{
     private void showPassword(Password pw){
 
         showPwDialog = new Dialog(PasswordManagerActivity.this);
-        showPwDialog.setContentView(R.layout.dialog_signin);
+        showPwDialog.setContentView(R.layout.dialog_show_pwd);
         title = (EditText)showPwDialog.findViewById(R.id.servername);
         url = (EditText)showPwDialog.findViewById(R.id.url);
         username = (EditText)showPwDialog.findViewById(R.id.username);

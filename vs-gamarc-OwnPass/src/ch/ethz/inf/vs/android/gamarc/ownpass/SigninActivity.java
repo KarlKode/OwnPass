@@ -106,11 +106,11 @@ public class SigninActivity extends Activity {
 	}
 
     private void addNewServer(){
-        //TODO call dialog with dialog_signin.xml
+        //TODO call dialog with dialog_addServer_signinver_signin.xml
         //http://developer.android.com/guide/topics/ui/dialogs.html
 
         addServerDialog = new Dialog(SigninActivity.this);
-        addServerDialog.setContentView(R.layout.dialog_signin);
+        addServerDialog.setContentView(R.layout.dialog_addServer_signin);
         serverName = (EditText)addServerDialog.findViewById(R.id.servername);
         serverUrl = (EditText)addServerDialog.findViewById(R.id.url);
         serverLogin = (EditText)addServerDialog.findViewById(R.id.username);
@@ -140,7 +140,7 @@ public class SigninActivity extends Activity {
     
     private void editServer(Server server){
         editServerDialog = new Dialog(SigninActivity.this);
-        editServerDialog.setContentView(R.layout.dialog_signin);
+        editServerDialog.setContentView(R.layout.dialog_addServer_signin);
         serverName = (EditText)editServerDialog.findViewById(R.id.servername);
         serverUrl = (EditText)editServerDialog.findViewById(R.id.url);
         serverLogin = (EditText)editServerDialog.findViewById(R.id.username);
