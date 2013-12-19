@@ -39,14 +39,6 @@ import org.json.JSONObject;
 
 public class PasswordUpdateRequest extends AsyncTask<String, Void, String> {
 	private	ArrayList<Password> passwords = new ArrayList<Password>();
-    
-//	private static String BASE_URL;
-//    private static String authorizationString;
-//	
-//	public PasswordUpdateRequest(String authorization, String base_url){
-//		BASE_URL = base_url;
-//		authorizationString = authorization;
-//	}
 	
 	@Override
 	protected String doInBackground(String... params) { // URL, authorizationString
@@ -60,10 +52,7 @@ public class PasswordUpdateRequest extends AsyncTask<String, Void, String> {
 
         try {
           HttpResponse  httpResponse = httpClient.execute(httpGet);
-            
-//	      StatusLine statusLine = response.getStatusLine();
-//	      int statusCode = statusLine.getStatusCode();
-//	      if (statusCode == 200) {
+
 	        HttpEntity entity = httpResponse.getEntity();
 	        InputStream content = entity.getContent();
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(content));
@@ -71,9 +60,6 @@ public class PasswordUpdateRequest extends AsyncTask<String, Void, String> {
 	        while ((line = reader.readLine()) != null) {
 	          builder.append(line);
 	        }
-//	      } else {
-//	        Log.e(JsonParser.class.toString(), "Failed to download file");
-//	      }
 	    } catch (ClientProtocolException e) {
 	      e.printStackTrace();
 	    } catch (IOException e) {
