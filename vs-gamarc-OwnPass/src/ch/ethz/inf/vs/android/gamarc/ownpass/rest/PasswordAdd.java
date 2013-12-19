@@ -1,75 +1,74 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass.rest;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import ch.ethz.inf.vs.android.gamarc.ownpass.Password;
-import ch.ethz.inf.vs.android.gamarc.ownpass.PasswordUpdateRequest;
 import ch.ethz.inf.vs.android.gamarc.ownpass.Server;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class PasswordAdd extends AsyncTask<Password, Void, String> {
-    private Server server;
     protected String authorizationString;
+    private Server server;
 
-    public PasswordAdd(Server s, String authorizationString) {
+    public PasswordAdd(Server server, String authorizationString) {
         this.server = server;
         this.authorizationString = authorizationString;
     }
 
     protected String getUrl() {
-        return server.getUrl() + "/passwords";
+        return server.getUrl() + "passwords";
     }
 
     @Override
     protected String doInBackground(Password... params) {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPut httpPut;
+        httpPut = new HttpPut(getUrl());
+        httpPut.setHeader("Content-Type", "application/json");
+        httpPut.setHeader("Authorization", authorizationString);
 
-        String result = "";
+        httpPut.setEntity(getBodyEntity(params[0]));
+
         try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPut httpPut = new HttpPut(getUrl());
-
-            httpPut.setHeader("Content-type", "application/json");
-            httpPut.setHeader("Authorization", authorizationString);
-
-            String json = createBody(params[0]);
-            StringEntity se = new StringEntity(json);
-            httpPut.setEntity(se);
-
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            result = httpclient.execute(httpPut, responseHandler);
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            HttpResponse response = httpClient.execute(httpPut);
+            if (response.getStatusLine().getStatusCode() != 200) {
+                return null;
+            }
+            return EntityUtils.toString(response.getEntity(), "UTF-8");
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return result;
+
+        return null;
     }
 
-    protected String createBody(Password pw) {
-        String title = pw.getTitle();
-        String url = pw.getUrl();
-        String username = pw.getUsernameBase64();
-        String password = pw.getPasswordBase64();
-        // TODO: Urlencode
-        return String.format("title=%s&url=%s&username=%s&password=%s", title, url, username, password);
+    private HttpEntity getBodyEntity(Password pwd) {
+        try {
+            String title = URLEncoder.encode(pwd.getTitle(), "UTF-8");
+            String url = URLEncoder.encode(pwd.getUrl(), "UTF-8");
+            String username = URLEncoder.encode(pwd.getUsernameBase64(), "UTF-8");
+            String password = URLEncoder.encode(pwd.getPasswordBase64(), "UTF-8");
+            return new StringEntity(
+                    String.format("title=%s&url=%s&username=%s&password=%s", title, url, username, password));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     protected void onPostExecute(String response) {
-        // handle response;
-        try {
-            JSONObject oneObject = new JSONObject(response);
-            String login = oneObject.getString("user_id");
-            if (login.equals("foo")) ;
-            //TODO remove passwordToUpdate
-        } catch (JSONException e) {
-            Log.e(PasswordUpdateRequest.class.toString(), "Failed to download file: " + e.getMessage());
-        }
-
+        // TODO
     }
 }
