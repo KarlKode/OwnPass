@@ -250,16 +250,17 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     }
     @Override
     public void onSuccess(List<Password> passwordList) {
+    	
         for(Password p: passwordList) {
         	db.addPassword(p);
         }
     }
     @Override
     public void onError(Exception e) {
-        if (e == null) {
-            onSuccess(null);
+        if (e != null) {
+            return;
         }
 
-        Toast.makeText(this, "Could not update passwords", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "updating interrupted", Toast.LENGTH_LONG).show();
     }
 }

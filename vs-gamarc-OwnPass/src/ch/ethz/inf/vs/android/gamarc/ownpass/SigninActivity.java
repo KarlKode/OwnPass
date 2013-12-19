@@ -216,7 +216,7 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
             return;
         }
 
-        if (e == null) {
+        if (e != null) {
             onSuccess(null);
             return;
         }
