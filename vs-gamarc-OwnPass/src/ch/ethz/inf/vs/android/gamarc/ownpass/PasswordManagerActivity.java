@@ -1,14 +1,21 @@
 package ch.ethz.inf.vs.android.gamarc.ownpass;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 
 public class PasswordManagerActivity extends Activity{
-	private ArrayList<Password> passwordsToSave = new ArrayList<Password>(); 
+	private Database db;
 	
+	public PasswordManagerActivity(Database db){
+		this.db = db;
+	}
 	
+	public void displayPasswords(){
+		
+	}
 	
+	public void addPasswords(){
+		
+	}
 	
 	public void update(){
 		
@@ -25,6 +32,4 @@ public class PasswordManagerActivity extends Activity{
 	public void change(Password pw){
 		
 	}
-	
-	
 }
