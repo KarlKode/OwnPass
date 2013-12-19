@@ -127,6 +127,8 @@ public class PasswordManagerActivity extends Activity{
         cancelDialogBtn = (Button)addPwDialog.findViewById(R.id.canbtn);
         addPwDialog.setTitle("Add new Password");
 
+
+
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
