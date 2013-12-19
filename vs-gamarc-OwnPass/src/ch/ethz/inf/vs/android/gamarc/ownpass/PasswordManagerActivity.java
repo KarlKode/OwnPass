@@ -32,6 +32,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private PasswordAdd padd;
     private PasswordDelete pdel;
     private PasswordEdit pedit;
+    private Server server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +43,16 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         
         db = new Database(this);
         Intent intent = getIntent();
-        Server server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
+        server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
         upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
         pdel = new PasswordDelete(server, authorizationString);
         pedit = new PasswordEdit(server, authorizationString);
+        Toast.makeText(this, "loading passwords", Toast.LENGTH_LONG).show();
+        update();
         passwordList = getPasswords(server);
+        
 
         //Add Server entries to the listview
         ListView lvPass = (ListView) findViewById(R.id.list_view_pwd);
@@ -217,6 +221,8 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     }
 
     private void save(String title, String url, String username, String password) {
+    	Encryption crypto = new Encryption(server);
+    	Password pw = new Password(server, server.getId(), title, url, crypto.encrypt(username),  crypto.encrypt(password));
         db.addPassword(pw);
 
     }
