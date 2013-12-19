@@ -1,5 +1,12 @@
 # OwnPass #
 
+## Debug stuff ##
+http://marcg.ch:5000/
+
+## Encryption ##
+User passwords are hashed with SHA256
+Password entrie fields are encrypted with AES 256 in CBC mode with PKCS5 padding. They should be encoded with Base64. http://stackoverflow.com/questions/10198462/android-aes-256-bit-encrypt-data
+
 ## API ##
 ### General ###
 All successful requests result in a response with the response code 200.

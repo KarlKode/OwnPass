@@ -19,6 +19,10 @@ public class Server {
 		return this.SERVER_NAME;
 	}
 	
+	public void setID(int id){
+		 this.SERVER_ID = id;
+	}
+	
 	public String getEncryptedLogin(){
 		return this.LOGIN;
 	}

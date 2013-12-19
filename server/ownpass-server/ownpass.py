@@ -158,4 +158,4 @@ if __name__ == '__main__':
         db.drop_all()
         db.create_all()
         return 'INSTALLED'
-    app.run(debug=True)
+    app.run('0.0.0.0', 5000, True)
