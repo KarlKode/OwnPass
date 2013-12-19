@@ -18,6 +18,8 @@ public class Server {
 	public String getName(){
 		return this.SERVER_NAME;
 	}
+
+    public String getLogin(){ return this.LOGIN; }
 	
 	public void setID(int id){
 		 this.SERVER_ID = id;

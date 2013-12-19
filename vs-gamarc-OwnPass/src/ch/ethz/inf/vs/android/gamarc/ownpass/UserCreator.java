@@ -7,24 +7,38 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
-import org.apache.commons.lang3.RandomStringUtils;
+//import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class UserCreator extends AsyncTask<String, Void, String>{
 	private static final String BASE_AUTHORIZATION = "username=%s&password=%s";
 	private static Server serv;
+	private static String URL;
 	
 	@Override
 	protected String doInBackground(String... params) { //0)Url not Base_URL; 1)username 2)login_name 3)password
-		String url = params[0]+"/users"; 
-		String json = createUserObject(params[1], params[0], params[1]).toString();
+		URL = params[0]; 
+		
 		String authorization = createAuthorization(params[2], params[3]);	
-		return put(url, json, authorization);
+		
+		 String result = "";
+		 try {
+			 HttpClient httpclient = new DefaultHttpClient();
+			 HttpPut httpPut = new HttpPut(URL + "/users");
+
+			 httpPut.setHeader("Content-type", "application/json");
+			 httpPut.setHeader("Authorization", authorization);
+			 
+			 ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			 result = httpclient.execute(httpPut, responseHandler); 
+		 } catch (Exception e) {
+			 Log.d("InputStream", e.getLocalizedMessage());
+		 }
+		 return result;
 	}
 	
 	private String createAuthorization(String username, String password) {
@@ -32,7 +46,7 @@ public class UserCreator extends AsyncTask<String, Void, String>{
         return "Basic " + Base64.encodeToString(base.getBytes(), Base64.NO_CLOSE);
 	}
 
-//	private JSONObject createUserObject(String userid, String url, String username){
+//	private JSONObject createUserObject(String url, String username){
 //		String login = RandomStringUtils.randomAlphanumeric(10);
 //		String pw = RandomStringUtils.randomAlphanumeric(20);
 //		login = Base64.encodeToString(login.getBytes(), Base64.DEFAULT);
@@ -42,7 +56,7 @@ public class UserCreator extends AsyncTask<String, Void, String>{
 //		
 //		JSONObject object = new JSONObject();
 //		  try {
-//		    object.put("user_id", userid);
+//		    object.put("user_id", username);
 //		    object.put("password", pw);
 //		    object.put("username", login);
 //		  } catch (JSONException e) {
@@ -50,26 +64,8 @@ public class UserCreator extends AsyncTask<String, Void, String>{
 //		  }
 //		return object;
 //	}
+//
 
-	 private static String put(String url, String json, String authorization){
-		 String result = "";
-		 try {
-			 HttpClient httpclient = new DefaultHttpClient();
-			 HttpPut httpPut = new HttpPut(url);
-			 StringEntity se = new StringEntity(json);
-			 httpPut.setEntity(se);
-
-			 httpPut.setHeader("Content-type", "application/json");
-			 httpPut.setHeader("Authorization", authorization);
-			 
-			 ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			 result = httpclient.execute(httpPut, responseHandler); 
-		 } catch (Exception e) {
-			 Log.d("InputStream", e.getLocalizedMessage());
-//			 serv = null;
-		 }
-		 return result;
-	 }
 	 
 	 public Server getCreatedServer(){
 		 return serv;
@@ -78,6 +74,19 @@ public class UserCreator extends AsyncTask<String, Void, String>{
 	 @Override
 	 protected void onPostExecute(String response) {
 	     super.onPostExecute(response);
-	     //TODO  handle response;
+
+	     try {
+			JSONObject oneObject = new JSONObject(response);
+		    String pw = oneObject.getString("password");
+		    String uid = oneObject.getString("user_id");
+		    String login = oneObject.getString("username");
+			
+		    serv = new Server(0, URL , uid, login, pw); //server_id is set later from database
+		} catch (JSONException e) {
+			e.printStackTrace();
+			
+			//TODO 
+		}
+	    
 	}
 }
