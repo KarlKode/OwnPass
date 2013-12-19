@@ -28,12 +28,6 @@ public class PasswordManagerActivity extends Activity{
 	private Database db;
 	private UserPasswords upass;
 
-//	public PasswordManagerActivity(Database db){
-//		this.db = db;
-//	}
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,30 +109,23 @@ public class PasswordManagerActivity extends Activity{
     }
 
     private void showPassword(Password pw){
-
+    	
     }
-
-    
-    
-	public void addPasswords(){
-
-	}
+ 
 	
 	public void update(){
-		
+		upass.execute();
 	}
 	
 	private void save(Password pw){
+		db.addPassword(pw);
 		
 	}
 	
 	private void delete(Password pw){
-		
+		db.removePassword(pw);
 	}
 	
-	private void change(Password pw){
-		
-	}
 
     private List<Password>getPasswords(Server server){
     	return db.getPasswords(server.getId());
