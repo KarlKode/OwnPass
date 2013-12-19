@@ -18,15 +18,15 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
 	private ResponseHandler<String> responseHandler = new BasicResponseHandler();
 	private HttpGet httpGet;
 	
-    private static String URL = "/users/%s";
+    private static String URL = "/users/";
     private static String authorizationString;
     private String username;
     private boolean responded = false;
     
     public LoginRequest(Server s){
       
-    	username = new String(Base64.decode(s.getEncryptedLogin(), Base64.DEFAULT));
-        String password = new String(Base64.decode(s.getEncryptedPW(), Base64.DEFAULT));
+    	username = new String(Base64.decode(s.getUsername(), Base64.DEFAULT));
+        String password = new String(Base64.decode(s.getPassword(), Base64.DEFAULT));
         
         URL = s.getUrl()+URL+username;
         authorizationString = "Basic " + Base64.encodeToString((username + ":" + password)
@@ -51,17 +51,14 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-    	  //  super.onPostExecute(check);
 	     try {
 			JSONObject oneObject = new JSONObject(response);
 		    String login = oneObject.getString("username");
 		    if(login.equals(username))
 		    	responded = true;
 		} catch (JSONException e) {
-			e.printStackTrace();
+			//TODO
 		}
-	     
-	     //TODO callback
     }
     
     public String getAuthorization(){
@@ -72,12 +69,12 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
     	return URL;
     }
     
-	public void isConnected(){
-		responded = false;
-		this.execute();
-		
-		//TODO callback
-		//return responded;
-	}
-    
+//	public void isConnected(){
+//		responded = false;
+//		this.execute();
+//		
+//		//TODO callback
+//		//return responded;
+//	}
+//    
 }

@@ -22,4 +22,24 @@ public class PasswordManagerActivity extends Activity{
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
+	
+	
+	
+	public void update(){
+		
+	}
+	
+	public void save(Password pw){
+		
+	}
+	
+	public void delete(Password pw){
+		
+	}
+	
+	public void change(Password pw){
+		
+	}
+	
+	
 }

@@ -26,19 +26,14 @@ public class SigninActivity extends Activity {
     EditText serverPassword;
     Button saveDialogBtn;
     Button cancelDialogBtn;
-    ServerDataBaseHelper sHelper;
+    Database database;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_signin);
 
-      /*  sHelper = new ServerDataBaseHelper(this);
-
-
-        List<Server> servers = sHelper.get_All_Server();*/
-
-        //sHelper = new ServerDataBaseHelper(this);
+        database = new Database(this);
         List<Server> servers = new ArrayList<Server>();//testing
         Server testServer = new Server(1,"url", "Testserver", "login", "password");
 
@@ -69,22 +64,22 @@ public class SigninActivity extends Activity {
                 }
 
                 // Create intent to switch to the SensorActivity
-                // Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
+               // Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
                 // Pass the sensor as an extra to the SensorActivity
-                // intent.putExtra(EXTRA_SENSOR, sensorWrapper.getSensor().toString());
-                // startActivity(intent);
+               // intent.putExtra(EXTRA_SENSOR, sensorWrapper.getSensor().toString());
+               // startActivity(intent);
             }
         });
 
 
         lvServer.setLongClickable(true);
-        lvServer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                Server server = (Server) parent.getItemAtPosition(position);
-                editServer(server);
-                return true;
-            }
-        });
+      lvServer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+          public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+              Server server = (Server) parent.getItemAtPosition(position);
+              editServer(server);
+              return true;
+          }
+      });
 
         //start OnClickListerner for the button
 
@@ -98,14 +93,14 @@ public class SigninActivity extends Activity {
             }
         });
 
-    }
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.login, menu);
+		return true;
+	}
 
     private void addNewServer(){
         //TODO call dialog with dialog_signin.xml
@@ -139,7 +134,7 @@ public class SigninActivity extends Activity {
         });
         addServerDialog.show();
     }
-
+    
     private void editServer(Server server){
         editServerDialog = new Dialog(SigninActivity.this);
         editServerDialog.setContentView(R.layout.dialog_signin);
@@ -154,7 +149,7 @@ public class SigninActivity extends Activity {
 
         serverName.setText(server.getName(), TextView.BufferType.EDITABLE);
         serverUrl.setText(server.getUrl(), TextView.BufferType.EDITABLE);
-        serverLogin.setText(server.getLogin(), TextView.BufferType.EDITABLE);
+        serverLogin.setText(server.getUsername(), TextView.BufferType.EDITABLE);
 
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
