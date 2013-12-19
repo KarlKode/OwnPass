@@ -51,17 +51,14 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-    	  //  super.onPostExecute(check);
 	     try {
 			JSONObject oneObject = new JSONObject(response);
 		    String login = oneObject.getString("username");
 		    if(login.equals(username))
 		    	responded = true;
 		} catch (JSONException e) {
-			e.printStackTrace();
+			//TODO
 		}
-	     
-	     //TODO callback
     }
     
     public String getAuthorization(){
@@ -72,12 +69,12 @@ public class LoginRequest extends AsyncTask<Void, Void, String> {
     	return URL;
     }
     
-	public void isConnected(){
-		responded = false;
-		this.execute();
-		
-		//TODO callback
-		//return responded;
-	}
-    
+//	public void isConnected(){
+//		responded = false;
+//		this.execute();
+//		
+//		//TODO callback
+//		//return responded;
+//	}
+//    
 }
