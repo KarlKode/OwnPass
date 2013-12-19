@@ -7,7 +7,11 @@ import android.view.Menu;
 import java.util.ArrayList;
 
 public class PasswordManagerActivity extends Activity{
-	private ArrayList<Password> passwordsToUpdate = new ArrayList<Password>();
+//	private Database db;
+//	
+//	public PasswordManagerActivity(Database db){
+//		this.db = db;
+//	}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,13 @@ public class PasswordManagerActivity extends Activity{
         return true;
     }
 	
+	public void displayPasswords(){
+		
+	}
 	
+	public void addPasswords(){
+		
+	}
 	
 	public void update(){
 		
@@ -40,6 +50,4 @@ public class PasswordManagerActivity extends Activity{
 	public void change(Password pw){
 		
 	}
-	
-	
 }
