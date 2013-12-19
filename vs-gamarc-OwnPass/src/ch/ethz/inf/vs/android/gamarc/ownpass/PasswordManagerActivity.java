@@ -40,7 +40,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_manager);
 
-        List<Password> passwordList = new ArrayList<Password>();
+        List<Password> passwordList;
         
         db = new Database(this);
         Intent intent = getIntent();
@@ -244,7 +244,9 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private List<Password> getPasswords(Server server) {
         return db.getPasswords(server.getId());
     }
-    
+
+
+
     public void update() {
         upass.execute();
     }
@@ -257,7 +259,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     }
     @Override
     public void onError(Exception e) {
-        if (e != null) {
+        if (e == null) {
             return;
         }
 
