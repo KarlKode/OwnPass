@@ -14,7 +14,7 @@ import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PasswordManagerActivity extends Activity {
+public class PasswordManagerActivity extends Activity implements UserPasswordCallback {
 
     Dialog addPwDialog;
     Dialog editPwDialog;
@@ -35,7 +35,7 @@ public class PasswordManagerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.R.layout.act);
+        setContentView(R.layout.activity_pwd_manager);
 
         List<Password> passwordList = new ArrayList<Password>();
 
@@ -46,7 +46,7 @@ public class PasswordManagerActivity extends Activity {
         passwordList.add(pass);
 
         db = new Database(this);
-        upass = new UserPasswords(server, db);
+        upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
         pdel = new PasswordDelete(server, authorizationString);
@@ -224,5 +224,15 @@ public class PasswordManagerActivity extends Activity {
 
     private List<Password> getPasswords(Server server) {
         return db.getPasswords(server.getId());
+    }
+
+    @Override
+    public void onSuccess(List<Password> passwordList) {
+
+    }
+
+    @Override
+    public void onError(Exception exception) {
+
     }
 }
