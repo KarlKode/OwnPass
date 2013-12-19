@@ -212,6 +212,7 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
 
         if (e == null) {
             onSuccess(null);
+            return;
         }
 
         Toast.makeText(this, "Could not log in", Toast.LENGTH_LONG).show();

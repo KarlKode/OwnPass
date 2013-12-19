@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "servers.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String TABLE_SERVER = "servers";
 
@@ -41,8 +41,8 @@ public class Database extends SQLiteOpenHelper {
     private static final String QUERY_CREATE_PASSWORD = String.format(
             "CREATE TABLE %s (" +
                     "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "%s INTEGER INDEX" +
-                    "%s INTEGER INDEX" +
+                    "%s INTEGER KEY," +
+                    "%s INTEGER KEY," +
                     "%s TEXT NOT NULL," +
                     "%s TEXT NOT NULL," +
                     "%s BLOB NOT NULL," +
@@ -69,6 +69,7 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(QUERY_CREATE_SERVER);
         database.execSQL(QUERY_CREATE_PASSWORD);
+        System.out.println(QUERY_CREATE_PASSWORD);
         // TODO Updates
     }
 
