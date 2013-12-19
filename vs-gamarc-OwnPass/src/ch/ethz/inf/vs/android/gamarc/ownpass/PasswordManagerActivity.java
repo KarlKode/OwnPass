@@ -14,7 +14,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class PasswordManagerActivity extends Activity{
-    private ArrayList<Password> passwordList = new ArrayList<Password>();
+
     Dialog addPwDialog;
     Dialog editPwDialog;
     Dialog showPwDialog;
@@ -28,11 +28,20 @@ public class PasswordManagerActivity extends Activity{
 //		this.db = db;
 //	}
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_manager);
 
+        ArrayList<Password> passwordList = new ArrayList<Password>();
+
+        Server server = new Server(1,"o", "b", "c", "t");
+        Password pass = new Password(server, 14,"title","url",new Byte[] ,new Byte[]);
+        passwordList.add(pass);
+
+        passwordList = getPasswords(server);
 
         //Add Server entries to the listview
         ListView lvPass = (ListView) findViewById(R.id.list_view_pwd);
@@ -67,8 +76,8 @@ public class PasswordManagerActivity extends Activity{
 
         //start OnClickListerner for the button
 
-        Button addServerButton = (Button) findViewById(R.id.activity_signin_button);
-        addServerButton.setOnClickListener(new View.OnClickListener() {
+        Button addPasswordButton = (Button) findViewById(R.id.activity_signin_button);
+        addPasswordButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 addNewPassword();
@@ -100,17 +109,12 @@ public class PasswordManagerActivity extends Activity{
     private void showPassword(Password pw){
 
     }
-<<<<<<< .mine
 
-
-
-
-=======
 	
 	public void displayPasswords(){
 		
 	}
->>>>>>> .theirs
+
 
 	/*
 	public void addPasswords(){
@@ -132,4 +136,9 @@ public class PasswordManagerActivity extends Activity{
 	private void change(Password pw){
 		
 	}
+
+    private ArrayList<Password>getPasswords(Server server){
+
+        return null;
+    }
 }
