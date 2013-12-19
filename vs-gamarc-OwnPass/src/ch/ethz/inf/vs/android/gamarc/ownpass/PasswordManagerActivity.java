@@ -2,6 +2,7 @@ package ch.ethz.inf.vs.android.gamarc.ownpass;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -38,14 +39,10 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         setContentView(R.layout.activity_pwd_manager);
 
         List<Password> passwordList = new ArrayList<Password>();
-
-        Server server = new Server(1, "o", "b", "c", "t");
-
-        byte[] b = {1, 2, 6, 3};
-        Password pass = new Password(server, 14, "title", "url", b, b);
-        passwordList.add(pass);
-
+        
         db = new Database(this);
+        Intent intent = getIntent();
+        Server server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
         upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
@@ -205,14 +202,6 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
 
     }
 
-    private void addPasswords() {
-
-    }
-
-    public void update() {
-        upass.execute();
-    }
-
     private void save(Password pw) {
         db.addPassword(pw);
 
@@ -225,14 +214,22 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private List<Password> getPasswords(Server server) {
         return db.getPasswords(server.getId());
     }
-
+    
+    public void update() {
+        upass.execute();
+    }
     @Override
     public void onSuccess(List<Password> passwordList) {
-
+        for(Password p: passwordList) {
+        	db.addPassword(p);
+        }
     }
-
     @Override
-    public void onError(Exception exception) {
+    public void onError(Exception e) {
+        if (e == null) {
+            onSuccess(null);
+        }
 
+        Toast.makeText(this, "Could not update passwords", Toast.LENGTH_LONG).show();
     }
 }
