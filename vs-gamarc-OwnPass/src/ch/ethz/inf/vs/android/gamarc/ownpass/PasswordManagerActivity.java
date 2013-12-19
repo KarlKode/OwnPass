@@ -100,17 +100,7 @@ public class PasswordManagerActivity extends Activity{
     private void showPassword(Password pw){
 
     }
-<<<<<<< .mine
 
-
-
-
-=======
-	
-	public void displayPasswords(){
-		
-	}
->>>>>>> .theirs
 
 	/*
 	public void addPasswords(){
