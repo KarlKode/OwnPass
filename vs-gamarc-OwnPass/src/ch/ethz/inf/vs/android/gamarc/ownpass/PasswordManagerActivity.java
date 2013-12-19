@@ -27,7 +27,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     Button delDialogBtn;
     Button cancelDialogBtn;
     Button saveDialogBtn;
-    private Database db;
+    private static Database db;
     private UserPasswords upass;
     private PasswordAdd padd;
     private PasswordDelete pdel;
@@ -145,8 +145,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
 
     }
 
-    private void editPassword(Password pw) {
-
+    private void editPassword(final Password pw) {
         editPwDialog = new Dialog(PasswordManagerActivity.this);
         editPwDialog.setContentView(R.layout.dialog_edit_pwd);
         title = (EditText) editPwDialog.findViewById(R.id.servername);
@@ -179,7 +178,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         delDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-          //      delete(pw.getId());
+                delete(pw);
                 editPwDialog.dismiss();
             }
         });
@@ -227,8 +226,8 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
 
     }
 
-    private void delete(long pwid) {
- //       db.removePassword(pwid);
+    private void delete(Password pw) {
+        db.removePassword(pw);
     }
 
     private List<Password> getPasswords(Server server) {
