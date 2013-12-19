@@ -33,6 +33,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private PasswordDelete pdel;
     private PasswordEdit pedit;
     private Server server;
+    private Encryption encryption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,9 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         Toast.makeText(this, "loading passwords", Toast.LENGTH_LONG).show();
         update();
         passwordList = getPasswords(server);
+
+
+        encryption = new Encryption(server);
         
 
         //Add Server entries to the listview
@@ -157,12 +161,20 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         cancelDialogBtn = (Button) editPwDialog.findViewById(R.id.canbtn);
         delDialogBtn = (Button) editPwDialog.findViewById(R.id.list_view_pwd);
 
+        title.setText(pw.getTitle(), TextView.BufferType.EDITABLE);
+        url.setText(pw.getUrl(), TextView.BufferType.EDITABLE);
+        username.setText(encryption.decrypt(pw.getUsername()), TextView.BufferType.EDITABLE);
+
         editPwDialog.setTitle("Edit Password");
 
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Create Databaseentry
+                String name = title.getText().toString();
+                String ur = url.getText().toString();
+                String us = username.getText().toString();
+                String pw = password.getText().toString();
+                save(name, ur, us, pw);
 
                 editPwDialog.dismiss();
             }
@@ -196,18 +208,11 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         username = (EditText) showPwDialog.findViewById(R.id.username);
         password = (EditText) showPwDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button) showPwDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button) showPwDialog.findViewById(R.id.canbtn);
+
+        cancelDialogBtn = (Button) showPwDialog.findViewById(R.id.back_button_showdialog);
         showPwDialog.setTitle(pw.getTitle());
 
-        saveDialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO Create Databaseentry
 
-                showPwDialog.dismiss();
-            }
-        });
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
