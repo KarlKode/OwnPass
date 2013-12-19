@@ -112,7 +112,7 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
                     url = url + "/";
                 }
                 String username = serverLogin.getText().toString();
-                String password = serverLogin.getText().toString();
+                String password = serverPassword.getText().toString();
                 database.addServer(new Server(name, url, username, password));
 
                 updateServers();
@@ -157,7 +157,7 @@ public class SigninActivity extends Activity implements UserPasswordCallback {
                     url = url + "/";
                 }
                 String username = serverLogin.getText().toString();
-                String password = serverLogin.getText().toString();
+                String password = serverPassword.getText().toString();
                 database.updateServer(server.getId(), name, url, username, password);
 
                 updateServers();
