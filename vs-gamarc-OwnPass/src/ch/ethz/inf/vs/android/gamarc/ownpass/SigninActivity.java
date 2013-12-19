@@ -27,6 +27,7 @@ public class SigninActivity extends Activity {
     EditText serverPassword;
     Button saveDialogBtn;
     Button cancelDialogBtn;
+    Button delDialogBtn;
     Database database;
 
 	@Override
@@ -68,7 +69,7 @@ public class SigninActivity extends Activity {
                Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
                 // Pass the sensor as an extra to the SensorActivity
                // intent.putExtra(EXTRA_SENSOR, sensorWrapper.getSensor().toString());
-                startActivity(intent);
+               // startActivity(intent);
             }
         });
 
@@ -146,6 +147,8 @@ public class SigninActivity extends Activity {
 
         saveDialogBtn = (Button)editServerDialog.findViewById(R.id.savebtn);
         cancelDialogBtn = (Button)editServerDialog.findViewById(R.id.canbtn);
+        delDialogBtn = (Button)editServerDialog.findViewById(R.id.delbtn);
+
         editServerDialog.setTitle("Edit Server");
 
         serverName.setText(server.getName(), TextView.BufferType.EDITABLE);
@@ -167,6 +170,15 @@ public class SigninActivity extends Activity {
                 editServerDialog.dismiss();
             }
         });
+
+        delDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO delete database entry
+                editServerDialog.dismiss();
+            }
+        });
+
         editServerDialog.show();
     }
 

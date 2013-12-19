@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password"
         android:layout_below="@+id/password"
-        android:text="Cancel" />
+        android:text="Delete" />
 
     </LinearLayout>
 

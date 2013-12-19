@@ -14,7 +14,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class PasswordManagerActivity extends Activity{
-	private ArrayList<Password> passwordList = new ArrayList<Password>();
+    private ArrayList<Password> passwordList = new ArrayList<Password>();
     Dialog addPwDialog;
     Dialog editPwDialog;
     Dialog showPwDialog;
@@ -100,36 +100,21 @@ public class PasswordManagerActivity extends Activity{
     private void showPassword(Password pw){
 
     }
-	
-	public void displayPasswords(){
-		
-	}
-	
-<<<<<<< .mine
-	/*public void update(){
+
+    public void displayPasswords(){
+
+    }
 
 
+    private void save(Password pw){
 
+    }
 
-=======
-	public void addPasswords(){
-		
-	}
-	
-	public void update(){
->>>>>>> .theirs
-		
-	} */
-	
-	private void save(Password pw){
-		
-	}
-	
-	private void delete(Password pw){
-		
-	}
-	
-	private void change(Password pw){
-		
-	}
+    private void delete(Password pw){
+
+    }
+
+    private void change(Password pw){
+
+    }
 }
