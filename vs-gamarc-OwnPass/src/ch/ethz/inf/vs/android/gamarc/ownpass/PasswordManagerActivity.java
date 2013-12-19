@@ -22,11 +22,11 @@ public class PasswordManagerActivity extends Activity{
     EditText username;
     EditText url;
     EditText password;
-//	private Database db;
-//	
-//	public PasswordManagerActivity(Database db){
-//		this.db = db;
-//	}
+	private Database db;
+
+	public PasswordManagerActivity(Database db){
+		this.db = db;
+	}
 
 
 
@@ -38,9 +38,10 @@ public class PasswordManagerActivity extends Activity{
         ArrayList<Password> passwordList = new ArrayList<Password>();
 
         Server server = new Server(1,"o", "b", "c", "t");
-        Password pass = new Password(server, 14,"title","url",new Byte[] ,new Byte[]);
+        Byte[] b = new Byte[];
+        Password pass = new Password(server, 14,"title","url",; ,new Byte[]);
         passwordList.add(pass);
-
+        db = new Database(this);
         passwordList = getPasswords(server);
 
         //Add Server entries to the listview
