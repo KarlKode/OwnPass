@@ -110,7 +110,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
 
         addPwDialog = new Dialog(PasswordManagerActivity.this);
         addPwDialog.setContentView(R.layout.dialog_add_pwd);
-        title = (EditText) addPwDialog.findViewById(R.id.activity_manager_button);
+        title = (EditText) addPwDialog.findViewById(R.id.servername);
         url = (EditText) addPwDialog.findViewById(R.id.url);
         username = (EditText) addPwDialog.findViewById(R.id.username);
         password = (EditText) addPwDialog.findViewById(R.id.password);
