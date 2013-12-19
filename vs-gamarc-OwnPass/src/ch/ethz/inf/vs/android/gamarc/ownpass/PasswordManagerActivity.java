@@ -40,7 +40,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_manager);
 
-        List<Password> passwordList;
+        List<Password> passwordList = new ArrayList<Password>();
         
         db = new Database(this);
         Intent intent = getIntent();
@@ -183,6 +183,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO Auto-generated method stub
                 editPwDialog.dismiss();
             }
         });
@@ -221,6 +222,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO Auto-generated method stub
                 showPwDialog.dismiss();
             }
         });
@@ -231,18 +233,11 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private void save(String title, String url, String username, String password) {
     	Encryption crypto = new Encryption(server);
     	Password pw = new Password(server, server.getId(), title, url, crypto.encrypt(username),  crypto.encrypt(password));
-    	padd.execute(pw);
         db.addPassword(pw);
-        
-    }
-    
-    private void edit(Password pw){
-    	pedit.execute(pw);
-    	db.updatePassword(pw);
+
     }
 
     private void delete(Password pw) {
-    	pdel.execute(pw);
         db.removePassword(pw);
     }
 

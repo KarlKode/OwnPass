@@ -246,10 +246,22 @@ It is important to mention, that we decided to encode all passwords with Base64 
 \subsection{Problems}
 \subsubsection{Callback stuff}
 \subsubsection{Long clicks}
-\subsubsection{TODO: More problems}
+While we were implementign LongItemlicks for editing ListView entries, we faced the problem that our application crashed every time we tried to press the entry. With the help of a answer on stackoverflow \cite{stackoverflow} we found a simple solution. We had to set the return value to true.
+\subsubsection{More problems}
 
 \section{Further Plans}
 \subsection{More Features}
+We had a lot of ideas how our app could be improved. Some of them we have listed here:
+\begin{itemize}
+         \item Create a small website to registrate new userlogins
+         \item Create a password generator for generating strong passwords
+         \item Implement a progressbar while loading passwords
+         \item Implement a small light that indicates if a server is reachable
+         \item Add a button to the show dialog for hiding/showing a password which initially is hidden
+         \item Save changes locally and commit them if an internet connection is available
+         \item Add a function to merge server passwords to one server
+      \end{itemize}
+ 
 \subsection{}
 
 \section{Conclusion}

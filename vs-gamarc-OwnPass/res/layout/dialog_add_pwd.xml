@@ -14,7 +14,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="@string/servername" />
+        android:hint="Title" />
     <EditText
         android:id="@+id/url"
         android:inputType="textUri"
