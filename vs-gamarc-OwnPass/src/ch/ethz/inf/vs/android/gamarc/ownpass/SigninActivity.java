@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class SigninActivity extends Activity {
 
     public static int LONG_PRESS_TIME = 500;
     Dialog addServerDialog;
+    Dialog editServerDialog;
     EditText serverName;
     EditText serverUrl;
     EditText serverLogin;
@@ -74,6 +76,16 @@ public class SigninActivity extends Activity {
             }
         });
 
+
+        lvServer.setLongClickable(true);
+      lvServer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+          public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+              Server server = (Server) parent.getItemAtPosition(position);
+              editServer(server);
+              return true;
+          }
+      });
+
         //start OnClickListerner for the button
 
         Button addServerButton = (Button) findViewById(R.id.activity_signin_button);
@@ -122,6 +134,40 @@ public class SigninActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // TODO Auto-generated method stub
+                addServerDialog.dismiss();
+            }
+        });
+        addServerDialog.show();
+    }
+    
+    private void editServer(Server server){
+        editServerDialog = new Dialog(SigninActivity.this);
+        editServerDialog.setContentView(R.layout.dialog_signin);
+        serverName = (EditText)addServerDialog.findViewById(R.id.servername);
+        serverUrl = (EditText)addServerDialog.findViewById(R.id.url);
+        serverLogin = (EditText)addServerDialog.findViewById(R.id.username);
+        serverPassword = (EditText)addServerDialog.findViewById(R.id.password);
+
+        saveDialogBtn = (Button)addServerDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button)addServerDialog.findViewById(R.id.canbtn);
+        addServerDialog.setTitle("Edit Server");
+
+        serverName.setText(server.getName(), TextView.BufferType.EDITABLE);
+        serverUrl.setText(server.getUrl(), TextView.BufferType.EDITABLE);
+        serverLogin.setText(server.getLogin(), TextView.BufferType.EDITABLE);
+
+        saveDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Update Databaseentry
+
+                addServerDialog.dismiss();
+            }
+        });
+        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
                 addServerDialog.dismiss();
             }
         });
