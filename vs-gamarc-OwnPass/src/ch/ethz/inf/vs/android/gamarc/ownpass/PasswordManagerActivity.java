@@ -5,21 +5,16 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import android.widget.*;
 import ch.ethz.inf.vs.android.gamarc.ownpass.rest.PasswordAdd;
 import ch.ethz.inf.vs.android.gamarc.ownpass.rest.PasswordDelete;
 import ch.ethz.inf.vs.android.gamarc.ownpass.rest.PasswordEdit;
 import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
 
-public class PasswordManagerActivity extends Activity{
+import java.util.ArrayList;
+import java.util.List;
+
+public class PasswordManagerActivity extends Activity {
 
     Dialog addPwDialog;
     Dialog editPwDialog;
@@ -31,28 +26,27 @@ public class PasswordManagerActivity extends Activity{
     Button delDialogBtn;
     Button cancelDialogBtn;
     Button saveDialogBtn;
-
-	private Database db;
-	private UserPasswords upass;
-	private PasswordAdd padd;
-	private PasswordDelete pdel;
-	private PasswordEdit pedit;
+    private Database db;
+    private UserPasswords upass;
+    private PasswordAdd padd;
+    private PasswordDelete pdel;
+    private PasswordEdit pedit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pwd_manager);
+        setContentView(android.R.layout.act);
 
         List<Password> passwordList = new ArrayList<Password>();
 
-        Server server = new Server(1,"o", "b", "c", "t");
+        Server server = new Server(1, "o", "b", "c", "t");
 
-        byte[] b = {1,2,6,3};
-        Password pass = new Password(server, 14,"title","url",b ,b);
+        byte[] b = {1, 2, 6, 3};
+        Password pass = new Password(server, 14, "title", "url", b, b);
         passwordList.add(pass);
-        
+
         db = new Database(this);
-        upass = new UserPasswords(server, db); 
+        upass = new UserPasswords(server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
         pdel = new PasswordDelete(server, authorizationString);
@@ -112,19 +106,17 @@ public class PasswordManagerActivity extends Activity{
         return true;
     }
 
-
-
-    private void addNewPassword(){
+    private void addNewPassword() {
 
         addPwDialog = new Dialog(PasswordManagerActivity.this);
         addPwDialog.setContentView(R.layout.dialog_add_pwd);
-        title = (EditText)addPwDialog.findViewById(R.id.activity_manager_button);
-        url = (EditText)addPwDialog.findViewById(R.id.url);
-        username = (EditText)addPwDialog.findViewById(R.id.username);
-        password = (EditText)addPwDialog.findViewById(R.id.password);
+        title = (EditText) addPwDialog.findViewById(R.id.activity_manager_button);
+        url = (EditText) addPwDialog.findViewById(R.id.url);
+        username = (EditText) addPwDialog.findViewById(R.id.username);
+        password = (EditText) addPwDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button)addPwDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button)addPwDialog.findViewById(R.id.canbtn);
+        saveDialogBtn = (Button) addPwDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button) addPwDialog.findViewById(R.id.canbtn);
         addPwDialog.setTitle("Add new Password");
 
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,18 +138,18 @@ public class PasswordManagerActivity extends Activity{
 
     }
 
-    private void editPassword(Password pw){
+    private void editPassword(Password pw) {
 
         editPwDialog = new Dialog(PasswordManagerActivity.this);
         editPwDialog.setContentView(R.layout.dialog_edit_pwd);
-        title = (EditText)editPwDialog.findViewById(R.id.servername);
-        url = (EditText)editPwDialog.findViewById(R.id.url);
-        username = (EditText)editPwDialog.findViewById(R.id.username);
-        password = (EditText)editPwDialog.findViewById(R.id.password);
+        title = (EditText) editPwDialog.findViewById(R.id.servername);
+        url = (EditText) editPwDialog.findViewById(R.id.url);
+        username = (EditText) editPwDialog.findViewById(R.id.username);
+        password = (EditText) editPwDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button)editPwDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button)editPwDialog.findViewById(R.id.canbtn);
-        delDialogBtn = (Button)editPwDialog.findViewById(R.id.list_view_pwd);
+        saveDialogBtn = (Button) editPwDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button) editPwDialog.findViewById(R.id.canbtn);
+        delDialogBtn = (Button) editPwDialog.findViewById(R.id.list_view_pwd);
 
         editPwDialog.setTitle("Edit Password");
 
@@ -180,18 +172,16 @@ public class PasswordManagerActivity extends Activity{
 
     }
 
-    private void showPassword(Password pw){
-<<<<<<< HEAD
-
+    private void showPassword(Password pw) {
         showPwDialog = new Dialog(PasswordManagerActivity.this);
         showPwDialog.setContentView(R.layout.dialog_show_pwd);
-        title = (EditText)showPwDialog.findViewById(R.id.servername);
-        url = (EditText)showPwDialog.findViewById(R.id.url);
-        username = (EditText)showPwDialog.findViewById(R.id.username);
-        password = (EditText)showPwDialog.findViewById(R.id.password);
+        title = (EditText) showPwDialog.findViewById(R.id.servername);
+        url = (EditText) showPwDialog.findViewById(R.id.url);
+        username = (EditText) showPwDialog.findViewById(R.id.username);
+        password = (EditText) showPwDialog.findViewById(R.id.password);
 
-        saveDialogBtn = (Button)showPwDialog.findViewById(R.id.savebtn);
-        cancelDialogBtn = (Button)showPwDialog.findViewById(R.id.canbtn);
+        saveDialogBtn = (Button) showPwDialog.findViewById(R.id.savebtn);
+        cancelDialogBtn = (Button) showPwDialog.findViewById(R.id.canbtn);
         showPwDialog.setTitle(pw.getTitle());
 
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
@@ -213,34 +203,24 @@ public class PasswordManagerActivity extends Activity{
 
     }
 
+    private void addPasswords() {
 
-	private void addPasswords(){
-
-	}
-	
-	private void update(){
-		
-=======
-    	
     }
- 
-	
-	public void update(){
-		upass.execute();
->>>>>>> cfd3848e2dc0cfe11fc4a6fcad2d284bf49a6b22
-	}
-	
-	private void save(Password pw){
-		db.addPassword(pw);
-		
-	}
-	
-	private void delete(Password pw){
-		db.removePassword(pw);
-	}
-	
 
-    private List<Password>getPasswords(Server server){
-    	return db.getPasswords(server.getId());
+    public void update() {
+        upass.execute();
+    }
+
+    private void save(Password pw) {
+        db.addPassword(pw);
+
+    }
+
+    private void delete(Password pw) {
+        db.removePassword(pw);
+    }
+
+    private List<Password> getPasswords(Server server) {
+        return db.getPasswords(server.getId());
     }
 }
