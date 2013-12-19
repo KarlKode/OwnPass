@@ -22,6 +22,11 @@ public class PasswordManagerActivity extends Activity{
     EditText username;
     EditText url;
     EditText password;
+//	private Database db;
+//	
+//	public PasswordManagerActivity(Database db){
+//		this.db = db;
+//	}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +101,23 @@ public class PasswordManagerActivity extends Activity{
 
     }
 	
+	public void displayPasswords(){
+		
+	}
 	
+<<<<<<< .mine
 	/*public void update(){
+
+
+
+
+=======
+	public void addPasswords(){
+		
+	}
+	
+	public void update(){
+>>>>>>> .theirs
 		
 	} */
 	
@@ -112,6 +132,4 @@ public class PasswordManagerActivity extends Activity{
 	private void change(Password pw){
 		
 	}
-	
-	
 }

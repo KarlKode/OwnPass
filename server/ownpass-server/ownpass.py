@@ -29,7 +29,7 @@ class UserResource(restful.Resource):
         return g.user.json()
 
     @auth_required
-    def patch(self, username):
+    def post(self, username):
         if username != g.user.username:
             return restful.abort(404, message='Invalid username')
         updated_fields = []
@@ -85,7 +85,7 @@ class PasswordResource(restful.Resource):
         return password.json()
 
     @auth_required
-    def patch(self, password_id):
+    def post(self, password_id):
         password = g.user.passwords.filter(Password.id == password_id).first()
         if password is None:
             return restful.abort(404, message='Invalid password ID')
