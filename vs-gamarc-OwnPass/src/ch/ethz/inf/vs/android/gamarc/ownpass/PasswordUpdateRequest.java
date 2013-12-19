@@ -39,16 +39,21 @@ import org.json.JSONObject;
 
 public class PasswordUpdateRequest extends AsyncTask<String, Void, String> {
 	private	ArrayList<Password> passwords = new ArrayList<Password>();
+	private String authorization;
+	
+	public PasswordUpdateRequest(String authorization) {
+		this.authorization = authorization;
+	}
 	
 	@Override
-	protected String doInBackground(String... params) { // URL, authorizationString
+	protected String doInBackground(String... params) { // URL
 	    StringBuilder builder = new StringBuilder();
        //ResponseHandler<String> responseHandler = new BasicResponseHandler();
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(params[0]+"/passwords");
         
         httpGet.setHeader("Content-Type", "application/json");
-        httpGet.setHeader("Authorization", params[1]);
+        httpGet.setHeader("Authorization", authorization);
 
         try {
           HttpResponse  httpResponse = httpClient.execute(httpGet);

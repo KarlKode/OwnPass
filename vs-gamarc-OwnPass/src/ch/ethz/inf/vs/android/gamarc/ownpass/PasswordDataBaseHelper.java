@@ -64,7 +64,7 @@ public class PasswordDataBaseHelper extends SQLiteOpenHelper{
 	  private ArrayList<Password> passwList = new ArrayList<Password>(); 
 	  
 	  public ArrayList<Password> get_All_Passwords(Server s){
-		  int ServerID = s.getId();
+		  int ServerID = 0;//s.getId();
 		  SQLiteDatabase db = this.getWritableDatabase();
 		  try{
 			  passwList.clear();

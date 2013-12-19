@@ -45,27 +45,6 @@ public class UserCreator extends AsyncTask<String, Void, String>{
 		String base = String.format(BASE_AUTHORIZATION, username, password);
         return "Basic " + Base64.encodeToString(base.getBytes(), Base64.NO_CLOSE);
 	}
-
-//	private JSONObject createUserObject(String url, String username){
-//		String login = RandomStringUtils.randomAlphanumeric(10);
-//		String pw = RandomStringUtils.randomAlphanumeric(20);
-//		login = Base64.encodeToString(login.getBytes(), Base64.DEFAULT);
-//		pw = Base64.encodeToString(login.getBytes(), Base64.DEFAULT);
-//		
-//		serv = new Server(0, url, username, login, pw); //server_id is set later from database
-//		
-//		JSONObject object = new JSONObject();
-//		  try {
-//		    object.put("user_id", username);
-//		    object.put("password", pw);
-//		    object.put("username", login);
-//		  } catch (JSONException e) {
-//		    e.printStackTrace();
-//		  }
-//		return object;
-//	}
-//
-
 	 
 	 public Server getCreatedServer(){
 		 return serv;
@@ -84,8 +63,6 @@ public class UserCreator extends AsyncTask<String, Void, String>{
 		    serv = new Server(0, URL , uid, login, pw); //server_id is set later from database
 		} catch (JSONException e) {
 			e.printStackTrace();
-			
-			//TODO 
 		}
 	    
 	}
