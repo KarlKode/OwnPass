@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
+import ch.ethz.inf.vs.android.gamarc.ownpass.rest.UserPasswords;
 
-public class SigninActivity extends Activity {
+import java.util.List;
+
+public class SigninActivity extends Activity implements UserPasswordCallback {
     public static String EXTRA_SERVER_ID = "SERVER_ID";
 
     Dialog addServerDialog;
@@ -22,6 +25,7 @@ public class SigninActivity extends Activity {
     Button delDialogBtn;
     Database database;
     ArrayAdapter<Server> serverArrayAdapter;
+    Server serverToConnect = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +50,13 @@ public class SigninActivity extends Activity {
                     return;
                 }
 
-                // Create intent to switch to the PasswordManagerActivity
-                Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
+                if (serverToConnect != null) {
+                    // TODO display error
+                    return;
+                }
 
-                // Pass the server as an extra to the PasswordManagerActivity
-                intent.putExtra(EXTRA_SERVER_ID, server.getId());
-
-                // Start the activity
-                startActivity(intent);
+                serverToConnect = server;
+                //UserPasswords userPasswords = new UserPasswords(this,)
             }
         });
 
@@ -182,4 +185,28 @@ public class SigninActivity extends Activity {
         serverArrayAdapter.addAll(database.getServers());
     }
 
+    @Override
+    public void onSuccess(List<Password> passwordList) {
+        if (serverToConnect == null) {
+            return;
+        }
+
+        // Create intent to switch to the PasswordManagerActivity
+        Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
+
+        // Pass the server as an extra to the PasswordManagerActivity
+        intent.putExtra(EXTRA_SERVER_ID, serverToConnect.getId());
+
+        // Start the activity
+        startActivity(intent);
+
+        serverToConnect = null;
+    }
+
+    @Override
+    public void onError(int erroCode) {
+        if (serverToConnect == null) {
+            return;
+        }
+    }
 }
