@@ -9,10 +9,7 @@ import android.view.View;
 import android.widget.*;
 
 public class SigninActivity extends Activity {
-    public static String EXTRA_SERVER_NAME = "SERVER_NAME";
-    public static String EXTRA_SERVER_URL = "SERVER_URL";
-    public static String EXTRA_SERVER_USERNAME = "SERVER_USERNAME";
-    public static String EXTRA_SERVER_PASSWORD = "SERVER_PASSWORD";
+    public static String EXTRA_SERVER_ID = "SERVER_ID";
 
     Dialog addServerDialog;
     Dialog editServerDialog;
@@ -53,10 +50,7 @@ public class SigninActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), PasswordManagerActivity.class);
 
                 // Pass the server as an extra to the PasswordManagerActivity
-                intent.putExtra(EXTRA_SERVER_NAME, server.getName());
-                intent.putExtra(EXTRA_SERVER_URL, server.getUrl());
-                intent.putExtra(EXTRA_SERVER_USERNAME, server.getUsername());
-                intent.putExtra(EXTRA_SERVER_PASSWORD, server.getPassword());
+                intent.putExtra(EXTRA_SERVER_ID, server.getId());
 
                 // Start the activity
                 startActivity(intent);
