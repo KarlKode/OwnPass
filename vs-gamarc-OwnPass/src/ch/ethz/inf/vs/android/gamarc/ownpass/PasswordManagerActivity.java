@@ -45,6 +45,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         db = new Database(this);
         Intent intent = getIntent();
         server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
+
         upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
@@ -203,10 +204,15 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private void showPassword(Password pw) {
         showPwDialog = new Dialog(PasswordManagerActivity.this);
         showPwDialog.setContentView(R.layout.dialog_show_pwd);
-        title = (EditText) showPwDialog.findViewById(R.id.servername);
-        url = (EditText) showPwDialog.findViewById(R.id.url);
-        username = (EditText) showPwDialog.findViewById(R.id.username);
-        password = (EditText) showPwDialog.findViewById(R.id.password);
+        TextView title = (TextView) showPwDialog.findViewById(R.id.servername);
+        TextView url = (TextView) showPwDialog.findViewById(R.id.url);
+        TextView username = (TextView) showPwDialog.findViewById(R.id.username);
+        TextView password = (TextView) showPwDialog.findViewById(R.id.password);
+
+        title.setText(pw.getTitle());
+        url.setText(pw.getUrl());
+        username.setText(encryption.decrypt(pw.getUsername()));
+        password.setText(encryption.decrypt(pw.getPassword()));
 
 
         cancelDialogBtn = (Button) showPwDialog.findViewById(R.id.back_button_showdialog);
