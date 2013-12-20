@@ -35,6 +35,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private Server server;
     private Encryption encryption;
 
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +87,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
                 Password pw = (Password) parent.getItemAtPosition(position);
                 editPassword(pw);
 
-                
-                
+
                 return true;
             }
 
@@ -137,7 +137,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
                 String p = password.getText().toString();
                 save(t, ur, us, p);
                 
-                addPwDialog.dismiss();
+                 addPwDialog.dismiss();
             }
         });
         cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +161,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
 
         saveDialogBtn = (Button) editPwDialog.findViewById(R.id.savebtn);
         cancelDialogBtn = (Button) editPwDialog.findViewById(R.id.canbtn);
-        delDialogBtn = (Button) editPwDialog.findViewById(R.id.list_view_pwd);
+        delDialogBtn = (Button) editPwDialog.findViewById(R.id.delbtn);
 
         title.setText(pw.getTitle(), TextView.BufferType.EDITABLE);
         url.setText(pw.getUrl(), TextView.BufferType.EDITABLE);
@@ -272,5 +272,9 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         }
 
         Toast.makeText(this, "updating interrupted", Toast.LENGTH_LONG).show();
+    }
+
+    private void updateArrayAdapter(){
+
     }
 }
