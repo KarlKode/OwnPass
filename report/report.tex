@@ -203,32 +203,25 @@ Basically at the moment the web application is just a simple wrapper around a SQ
 
 TODO: Some source code and a basic description about AsyncTask and how HTTP requests were done
 
+
+
+
+
+
+
 \subsection{Interface}
 
-\begin{figure}
-	\centering
-	\subfigure[SigninActivity]{
-	    \includegraphics[height=5cm]{screenshots/login}
-	    \label{fig:serverList}
-	}
-	\hfill
-	\subfigure[PasswordManagerActivity]{
-		\includegraphics[height=5cm]{screenshots/password_activity}
-		\label{fig:pw_activity}
-		}
-	\hfill
-	\subfigure[Edit server dialog]{
-	    \includegraphics[height=5cm]{screenshots/edit_server}
-	    \label{fig:edit_server}
-	}
-	\caption{Different activities in action}
-\end{figure}
-Our application consists of two Activities called SigninActivity and PassworManagerActivity. The SigninActivity is the main activity and shows a list of all servers which contain your passwords \ref{fig:serverList}. The other one contains all different passwords stored on the chosen server \ref{fig:pw_activity}.
-We tried to implement both of our activities with the same usability pattern. A short click on an item in the ListView opens its content. With a longClick on an item, a dialog pops up and you can edit or delete an element \ref{fig:edit_server}. A button on the bottom adds new elements to the corresponding interface.  
+TODO: Describe the interface, maybe a state diagram and of course a 
+
+
+
+
+
+
+
 
 \section{Implementation}
-
-\subsection{TODO: More implementation details}
+The application starts with a ListView of registered servers. The User may decide on which account he wants to store his passwords by just clicking on a server. This will lead to a list of all here  stored passwords. In Both Activities, it's basically the same for servers and for passwords, the User can push the Add button and create a new Object. if he clicks on a particular object for some time a field appears where this object can be deleted or edited. 
 
 \subsection{Cryptography}
 As we all know that cryptography is hard and a pain, we used the standard Java javax.crypto cryptography library to implement hashing, encryption and decryption.
@@ -265,40 +258,47 @@ It is important to mention, that we decided to encode all passwords with Base64 
 In later implementations, it might be useful to use the bcrypt or scrypt libraries for a much better security. 
 
 \subsection{Problems}
-\subsubsection{Callback stuff}
-\subsubsection{Long clicks}
-While we were implementign LongItemlicks for editing ListView entries, we faced the problem that our application crashed every time we tried to press the entry. With the help of a answer on stackoverflow  we found a simple solution. We had to set the return value to true.
-\subsubsection{More problems}
 
-\subsection{Loss of Consistency}
+
+
+\subsubsection{Callbacks}
+
+
+\subsubsection{Long clicks}
+
+
+\subsubsection{Inefficiency}
+Every time we login to the server we update our local database by 
+dropping the current password table and adding all the passwords we get from the server. It's obvious that we reinsert most of the entries. This concept works fine as long as there are just a few password. But consider the case we have some thousand ones we might get an unacceptable latency. It would take much to much time especially for displaying the entries. 
+
+One possible solution would be to send just the information that is needed. But this approach would make the whole application design much more complicated especially for implementing the server. It would have to keep track of which client got which information by now.
+
+\subsubsection{Temporary Loss of Consistency}
 The Basic Strategy for changing our database works in a best effort like manner. We update our local database every time when we're adding, deleting or editing a password. On the other hand the server database will only be updated if it's possible to get a connection. If that's not the case we don't do much more at moment.
 Consider the case someone makes any changes while he's offline. The Server will never get updated and hence the other affiliated devices will never learn about the modifications. It's even worse because every time the application restarts the local database gets overwritten and all changes will be lost. As the only good side effect we get that the consistency is reestablished.
 
-To solve this problem we would have to add another table that stores informations about all the modifications that couldn't be sent to the server for any reasons. When a connection succeeded it should 
+To solve this problem we would have to add another table that stores informations about all the modifications that couldn't be sent to the server for any reasons. When a connection succeeded it should exchange as much data as possible. In the optimal case both databases get consistent. Otherwise keep the not yet sent passwords stored. 
 
 \section{Further Plans}
 We intended to build some extra features. For example, we wanted to give the client the possibility to save some comments for each Password. Those could be shared among the different devices or just stored locally. 
 we also planed to give the clients the possibility not just to register for given Accounts but to create new ones as well. This would be handy if someone wants to share the service with different peoples he didn't even met yet. With our current solution we would have to create for example a website to get the same functionality.
 Even though that's much less handy.
+
 A small gimmick we wanted to include is a password and user name  generator. We have even written most of the code but we decided to focus on the main features. 
+
 Something else fairly simple to implement is to provide a button that gives the user the possibility to decide whether it should update the passwords or not.  
 
 \subsection{More Features}
-We had a lot of ideas how our app could be improved. Some of them we have listed here:
-\begin{itemize}
-         \item Create a small website to registrate new userlogins
-         \item Create a password generator for generating strong passwords
-         \item Implement a progressbar while loading passwords
-         \item Implement a small light that indicates if a server is reachable
-         \item Add a button to the show dialog for hiding/showing a password which initially is hidden
-         \item Save changes locally and commit them if an internet connection is available
-         \item Add a function to merge server passwords to one server
-      \end{itemize}
- 
-\subsection{}
+It might be interesting to give the users the possibility to merge the informations of several servers. The simplest approach is to just store all the date on just one server. An other idea would be to let the passwords where they're stored but to create for the user an illusion of storing everything on just one server. It's even possible to store the passwords on several servers to guarantee that no information is lost. The User wouldn't have to remember any longer where what Password is stored.
+
+There are much more Features one might implement, for example some kind of hierarchy between the passwords or to give permissions to other users to access just some specified passwords. But most of them are kind of tricky to implement.
 
 \section{Conclusion}
+For the project we could use much of the material we learned in the distributed systems class. Building a Server and a client and let them exchange data is a task in which the benefits of the exercises from the first part clearly appeared. 
 
+When we decided what kind of project we would like to do, we knew that it should be something handy. Something that can be used after we the course ended and we are convinced that our project satisfies this goal. Of course there's still a lot of work that could be done but the main functionalities one might want are implemented. The application can be used now for private purposes.
+
+Overall this project was a fun thing to do. 
 
 % The following two commands are all you need in the
 % initial runs of your .tex file to
