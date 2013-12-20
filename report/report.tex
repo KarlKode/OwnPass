@@ -243,12 +243,26 @@ At the moment we simply hash the password using the hashing algorithm SHA256 and
 
 It is important to mention, that we decided to encode all passwords with Base64 to make it easier to debug the connection because of the lack of any binary transfers.
 
+In later implementations, it might be useful to use the bcrypt or scrypt libraries for a much better security. 
+
 \subsection{Problems}
 \subsubsection{Callback stuff}
 \subsubsection{Long clicks}
 \subsubsection{TODO: More problems}
 
+\subsection{Loss of Consistency}
+The Basic Strategy for changing our database works in a best effort like manner. We update our local database every time when we're adding, deleting or editing a password. On the other hand the server database will only be updated if it's possible to get a connection. If that's not the case we don't do much more at moment.
+Consider the case someone makes any changes while he's offline. The Server will never get updated and hence the other affiliated devices will never learn about the modifications. It's even worse because every time the application restarts the local database gets overwritten and all changes will be lost. As the only good side effect we get that the consistency is reestablished.
+
+To solve this problem we would have to add another table that stores informations about all the modifications that couldn't be sent to the server for any reasons. When a connection succeeded it should 
+
 \section{Further Plans}
+We intended to build some extra features. For example, we wanted to give the client the possibility to save some comments for each Password. Those could be shared among the different devices or just stored locally. 
+we also planed to give the clients the possibility not just to register for given Accounts but to create new ones as well. This would be handy if someone wants to share the service with different peoples he didn't even met yet. With our current solution we would have to create for example a website to get the same functionality.
+Even though that's much less handy.
+A small gimmick we wanted to include is a password and user name  generator. We have even written most of the code but we decided to focus on the main features. 
+Something else fairly simple to implement is to provide a button that gives the user the possibility to decide whether it should update the passwords or not.  
+
 \subsection{More Features}
 \subsection{}
 
