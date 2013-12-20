@@ -72,7 +72,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Get the clicked Password
                 Password pw = (Password) parent.getItemAtPosition(position);
-                if (password == null) {
+                if (pw == null) {
                     return;
                 }
 
@@ -204,7 +204,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private void showPassword(Password pw) {
         showPwDialog = new Dialog(PasswordManagerActivity.this);
         showPwDialog.setContentView(R.layout.dialog_show_pwd);
-        TextView title = (TextView) showPwDialog.findViewById(R.id.servername);
+        TextView title = (TextView) showPwDialog.findViewById(R.id.sitename);
         TextView url = (TextView) showPwDialog.findViewById(R.id.url);
         TextView username = (TextView) showPwDialog.findViewById(R.id.username);
         TextView password = (TextView) showPwDialog.findViewById(R.id.password);
