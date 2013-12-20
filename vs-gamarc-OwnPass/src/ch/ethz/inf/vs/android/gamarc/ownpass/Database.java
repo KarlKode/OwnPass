@@ -260,7 +260,7 @@ public class Database extends SQLiteOpenHelper {
         updatedPassword.put(FIELD_PASSWORD_USERNAME, password.getUsername());
         updatedPassword.put(FIELD_SERVER_PASSWORD, password.getPassword());
 
-        database.update(TABLE_SERVER, updatedPassword, String.format("%s=?", FIELD_SERVER_ID), new String[] {String.valueOf(password.getId())});
+        database.update(TABLE_PASSWORD, updatedPassword, String.format("%s=?", FIELD_SERVER_ID), new String[] {String.valueOf(password.getId())});
 
         // Cleanup
         database.close();
