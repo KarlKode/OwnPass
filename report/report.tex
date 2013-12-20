@@ -221,7 +221,38 @@ TODO: Describe the interface, maybe a state diagram and of course a
 
 
 \section{Implementation}
+We created a Server and a Client application. The server is supposed to run on a computer.
+
 The application starts with a ListView of registered servers. The User may decide on which account he wants to store his passwords by just clicking on a server. This will lead to a list of all here  stored passwords. In Both Activities, it's basically the same for servers and for passwords, the User can push the Add button and create a new Object. if he clicks on a particular object for some time a field appears where this object can be deleted or edited. 
+
+We store all the informations about Servers and Passwords on the client side in a class called Database. It creates two tables servers.db and passwords.db with the following properties:
+
+\lstset{language=SQL,frame=ltrb,framesep=5pt,basicstyle=\normalsize,
+	 keywordstyle=\ttfamily\color{green},
+     identifierstyle=\ttfamily\color{blue}\bfseries,
+     commentstyle=\color{black},
+     stringstyle=\ttfamily,
+     showstringspaces=ture}
+\begin{lstlisting}     
+ CREATE TABLE servers ( 
+         id INTEGER PRIMARY KEY AUTOINCREMENT, 
+         name TEXT NOT NULL, 
+         url TEXT NOT NULL, 
+         username TEXT NOT NULL, 
+         password TEXT NOT NULL ) 
+\end{lstlisting}
+\begin{lstlisting} 	
+ CREATE TABLE passwords (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        server_id INTEGER KEY,
+        server_password_id INTEGER KEY, 
+        title TEXT NOT NULL,
+        url 	TEXT NOT NULL,
+        username BLOB NOT NULL,
+        password BLOB NOT NULL )
+\end{lstlisting}
+
+we use this class Database to store all the informations we will need later on and to handle all the updates. The manipulations like delete, add and edit are created more or less equally.
 
 \subsection{Cryptography}
 As we all know that cryptography is hard and a pain, we used the standard Java javax.crypto cryptography library to implement hashing, encryption and decryption.
