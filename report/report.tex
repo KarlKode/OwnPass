@@ -205,7 +205,26 @@ TODO: Some source code and a basic description about AsyncTask and how HTTP requ
 
 \subsection{Interface}
 
-TODO: Describe the interface, maybe a state diagram and of course a few screenshots
+\begin{figure}
+	\centering
+	\subfigure[SigninActivity]{
+	    \includegraphics[height=5cm]{screenshots/login}
+	    \label{fig:serverList}
+	}
+	\hfill
+	\subfigure[PasswordManagerActivity]{
+		\includegraphics[height=5cm]{screenshots/password_activity}
+		\label{fig:pw_activity}
+		}
+	\hfill
+	\subfigure[Edit server dialog]{
+	    \includegraphics[height=5cm]{screenshots/edit_server}
+	    \label{fig:edit_server}
+	}
+	\caption{Different activities in action}
+\end{figure}
+Our application consists of two Activities called SigninActivity and PassworManagerActivity. The SigninActivity is the main activity and shows a list of all servers which contain your passwords \ref{fig:serverList}. The other one contains all different passwords stored on the chosen server \ref{fig:pw_activity}.
+We tried to implement both of our activities with the same usability pattern. A short click on an item in the ListView opens its content. With a longClick on an item, a dialog pops up and you can edit or delete an element \ref{fig:edit_server}. A button on the bottom adds new elements to the corresponding interface.  
 
 \section{Implementation}
 
