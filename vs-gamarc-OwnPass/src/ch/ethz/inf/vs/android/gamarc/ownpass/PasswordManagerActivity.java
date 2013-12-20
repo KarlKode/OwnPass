@@ -36,7 +36,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     private Encryption encryption;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_manager);
 
@@ -45,18 +45,17 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         db = new Database(this);
         Intent intent = getIntent();
         server = db.getServer(intent.getLongExtra(SigninActivity.EXTRA_SERVER_ID, 0));
-
+        encryption = new Encryption(server);
         upass = new UserPasswords(this, server, db);
         String authorizationString = upass.getAuthorization();
         padd = new PasswordAdd(server, authorizationString);
         pdel = new PasswordDelete(server, authorizationString);
         pedit = new PasswordEdit(server, authorizationString);
-        Toast.makeText(this, "loading passwords", Toast.LENGTH_LONG).show();
         update();
         passwordList = getPasswords(server);
 
 
-        encryption = new Encryption(server);
+      
         
 
         //Add Server entries to the listview
@@ -86,8 +85,12 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
                 Password pw = (Password) parent.getItemAtPosition(position);
                 editPassword(pw);
+
+                
+                
                 return true;
             }
+
         });
 
         //start OnClickListerner for the button
@@ -97,11 +100,11 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
             public void onClick(View v) {
                 // Perform action on click
                 addNewPassword();
-
-
+               
+                
             }
         });
-
+        
 
     }
 
@@ -125,8 +128,6 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         cancelDialogBtn = (Button) addPwDialog.findViewById(R.id.canbtn);
         addPwDialog.setTitle("Add new Password");
 
-
-
         saveDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +136,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
                 String us = username.getText().toString();
                 String p = password.getText().toString();
                 save(t, ur, us, p);
-
+                
                 addPwDialog.dismiss();
             }
         });
@@ -174,8 +175,8 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
                 String name = title.getText().toString();
                 String ur = url.getText().toString();
                 String us = username.getText().toString();
-                String pw = password.getText().toString();
-                save(name, ur, us, pw);
+                String p = password.getText().toString();
+                edit(pw.getId(), name, ur, us, p);
 
                 editPwDialog.dismiss();
             }
@@ -236,7 +237,10 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
         
     }
     
-    private void edit(Password pw){
+    private void edit(long id, String title, String url, String username, String password){
+    	Encryption crypto = new Encryption(server);
+    	Password pw = new Password(server, server.getId(), title, url, crypto.encrypt(username),  crypto.encrypt(password));
+    	pw.setId(id);
     	pedit.execute(pw);
     	db.updatePassword(pw);
     }
@@ -251,6 +255,7 @@ public class PasswordManagerActivity extends Activity implements UserPasswordCal
     }
     
     public void update() {
+    	Toast.makeText(this, "loading passwords", Toast.LENGTH_LONG).show();
         upass.execute();
     }
     @Override
