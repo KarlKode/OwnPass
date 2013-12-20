@@ -194,31 +194,51 @@ For developing the backend we used
 We currently provide the following REST endpoints to the Android application to communicate with the backend:
 
 \begin{itemize}
-	\item TODO: add possbile requests from the readme
+	\item PUT /users - Register a new user - this has not been implemented in the Android applicatoin
+	\item GET /users/<USERNAME> - Get a users information - this is only available to the user itself and in the future possibly to administrators or something similar
+	\item GET /users/<USERNAME>/passwords - Get a users password entries. These include an encrypted username and password.
+	\item POST /users/<USERNAME> - Change a users data. This at the moment only includes the user's password. At the moment this is not implemented.
+	\item PUT /passwords - Add a password to the account of the currently logged in user.
+	\item GET /passwords/<PASSWORDID> - Get a password's information
+	\item POST /passwords/<PASSWORDID> - Change a password's information
+	\item DELETE /passwords/<PASSWORDID> - Delete a password
 \end{itemize}
 
 Basically at the moment the web application is just a simple wrapper around a SQLite database. Still, this was enough for us to develop the application.
 
 \subsection{Communication}
+As mentioned in the previous section, we use a REST API to establish the communication between the server and the Android application. We also already mentioned, that our application at the moment does not make user of all API endpoints. This is because we did not know how to add the functionality to the interface and also because of time constraints.
 
-TODO: Some source code and a basic description about AsyncTask and how HTTP requests were done
-
-
-
-
-
-
+To communicate with the server we used the Apache HTTP libraries that allow us to simply perform GET, POST, PUT and DELETE requests. They are run in an AsyncTask to prevent the main UI thread from blocking.
 
 \subsection{Interface}
+\begin{figure}
+	\centering
+	\subfigure[The dialog to add a server]{
+	    \includegraphics[height=6cm]{screenshots/add_server}
+	    \lfig{screenshot-add-server}   
+	}
+	\hfill
+	\subfigure[Dialog to select a server and login]{
+	    \includegraphics[height=6cm]{screenshots/login}
+	    \lfig{screenshot-login}
+	}
+	\caption{The SigninActivity where one can add, modfiy and delete servers and also connect to an already added server.}
+\end{figure}
 
-TODO: Describe the interface, maybe a state diagram and of course a 
+\begin{figure}
+	\centering
+	\subfigure[The password list]{
+	    \includegraphics[height=6cm]{screenshots/password_activity}
+	    \lfig{screenshot-password-activity}   
+	}
+\end{figure}
 
+In the same vain that we developed the rest of the application, we also tried to keep the interface as simple and clean as possible. Therefore it consists of only two activities.
 
+The first of these is the SigninActivity that serves to display stored servers and add, edit and delete servers. It can be seen in figures 1(a) and 1(b). This information is stored in the SQLite database to allow us to later query the same information again. A simple click on an existing server tries to connect to that server and transmits the user data. If the login was successful the PasswordManagerActivity is started.
 
-
-
-
-
+The second activity is the PasswordManagerActivity that displays saved passwords and allows the user to add, modify and delete passwords. Again it uses the SQLite database to cache all passwords to allow a user to access his passwords, even if he does not have any data connectivity.
 
 \section{Implementation}
 We created a Server and a Client application. The server is supposed to run on a computer.
@@ -286,17 +306,25 @@ At the moment we simply hash the password using the hashing algorithm SHA256 and
 
 It is important to mention, that we decided to encode all passwords with Base64 to make it easier to debug the connection because of the lack of any binary transfers.
 
-In later implementations, it might be useful to use the bcrypt or scrypt libraries for a much better security. 
+In later implementations, it might be useful to use the bcrypt or scrypt to hash the password to enhance the security of the password hashing algorithm.
 
 \subsection{Problems}
-
-
+In the following sections we list a few problems we came across while developing the Android application. We did not include any problems we had with the server as this was not the main focus of this project.
 
 \subsubsection{Callbacks}
+We wanted to reuse the UserPasswords class to check if a login was successful and also to load all passwords of a user. At first we thought that this was only achievable using some kind of inheritance, but we had the brilliant idea to simply create a UserPasswordCallback interface like this:
+\lstset{language=Java,caption={UserPasswordCallback interface},label=code} 
+\begin{lstlisting}
+public interface UserPasswordCallback {
+    public void onSuccess(List<Password> passwordList);
+    public void onError(Exception exception);
+}
+\end{lstlisting}
 
+We implement this interface in both of our activities to allow the UserPasswords AsyncTask to call the onSuccess and onError methods in the postExecute method. This allows us to react differently on errors in both classes as an invalid login should not allow the user to proceed to the PasswordManagerActivity but at the same time should not remove the cached passwords in the PasswordManagerActivity.
 
 \subsubsection{Long clicks}
-
+Because we decided to show the modification dialog of a server and password after a long click on the ListView item, we had to add an onItemLongClickListener to both ListViews. At first we forgot to return true in the called onItemLongClick method which results in the standard onItemClickListener to be called. That does not result in showing the modification dialog but also in signing in which is highly undesirable.
 
 \subsubsection{Inefficiency}
 Every time we login to the server we update our local database by 
@@ -309,6 +337,11 @@ The Basic Strategy for changing our database works in a best effort like manner.
 Consider the case someone makes any changes while he's offline. The Server will never get updated and hence the other affiliated devices will never learn about the modifications. It's even worse because every time the application restarts the local database gets overwritten and all changes will be lost. As the only good side effect we get that the consistency is reestablished.
 
 To solve this problem we would have to add another table that stores informations about all the modifications that couldn't be sent to the server for any reasons. When a connection succeeded it should exchange as much data as possible. In the optimal case both databases get consistent. Otherwise keep the not yet sent passwords stored. 
+
+\subsubsection{Cryptography}
+As already mentioned several times through the report, we decided to concentrate on the Android application and did not spend too much time on the cryptographic aspects of our system. For example we know, that it is moronic to send the user's master password in cleartext / to send the same password we use to de- and encrypt usernames and passwords to the server.
+
+We simply did not have the time to acquire the knowledge to inform ourselves, how possible competitors solve this problem and to come up with an improved solution.
 
 \section{Further Plans}
 We intended to build some extra features. For example, we wanted to give the client the possibility to save some comments for each Password. Those could be shared among the different devices or just stored locally. 
